@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 import Slide from 'react-reveal';
 import { LinkContainer } from 'react-router-bootstrap';
+import {socket} from '../connection/socket'
 
 const Hero = () => {
 	const imgStyle = {
@@ -28,6 +29,10 @@ const Hero = () => {
 		maxWidth: '300px',
 	};
 
+	function testButton(){
+		socket.emit('test', 'hello');
+	};
+
 	return (
 		<div id="home" style={{ minHeight: '100vh' }}>
 			<Container className="d-flex justify-content-center align-items-center h-100 my-5">
@@ -39,10 +44,8 @@ const Hero = () => {
 								It can be a struggle to find a teammate that you get along with.
 								Sign up and build amazing projects with your perfect hackathon
 								match.
-							</div>
-							<LinkContainer to="/login">
-								<Button id="heroBtn">Join now</Button>
-							</LinkContainer>
+							</div>						
+							<Button id="heroBtn" onClick={testButton}>Join now</Button>
 						</Slide>
 					</Col>
 					<Col md={7} className="">

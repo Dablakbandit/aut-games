@@ -5,11 +5,19 @@ const userRoutes = require('./routes/userRoutes');
 var cors = require('cors');
 const path = require('path');
 const { notFound, errorHandler } = require('./middleware/error');
+const http = require('http');
+const socketio = require('socket.io');
 
 const app = express();
+const httpServer = http.createServer(app);
+const socketServer = socketio(httpServer, {
+	cors:{
+		origin: '*'
+	}
+});
 
 dotenv.config();
-connectDB();
+//connectDB();
 // cors
 app.use(cors({ origin: true, credentials: true }));
 
@@ -35,6 +43,12 @@ app.use(notFound);
 
 app.use(errorHandler);
 
+socketServer.on('connection', (socket)=>{
+	socket.on('test', function(msg) {
+		console.log("Received a chat message");
+	  });
+});
+
 const port = process.env.PORT || 5000;
 
-app.listen(port, console.log('Server is running on the port 8000'));
+httpServer.listen(port, console.log(`Server is running on the port ${port}`));
