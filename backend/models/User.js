@@ -1,40 +1,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const matchUser = mongoose.Schema({
-	name: {
-		type: String,
-		required: true,
-	},
-	image: {
-		type: String,
-		default: 'None',
-	},
-	role: {
-		type: String,
-		default: 'Unknown',
-	},
-	description: {
-		type: String,
-		default: '',
-	},
-	age: {
-		type: Number,
-		required: true,
-	},
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		required: true,
-		ref: 'User',
-	},
-});
-
 const User = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
 	},
-
 	email: {
 		type: String,
 		required: true,
@@ -44,28 +15,6 @@ const User = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	age: {
-		type: Number,
-		required: true,
-	},
-	image: {
-		type: String,
-		default: 'img/users/1.jpg',
-		// required: true,
-	},
-	role: {
-		type: String,
-		default: 'Unknown',
-	},
-	description: {
-		type: String,
-		default: '',
-	},
-
-	likedUsers: [matchUser],
-	dislikedUsers: [matchUser],
-	likedByUsers: [matchUser],
-	matchedUsers: [matchUser],
 });
 
 //USER AUTHENTICATION METHOD

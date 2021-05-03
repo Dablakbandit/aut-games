@@ -5,7 +5,6 @@ const userRoutes = require('./routes/userRoutes');
 var cors = require('cors');
 const path = require('path');
 const { notFound, errorHandler } = require('./middleware/error');
-const matchingRoutes = require('./routes/matchingRoutes');
 
 const app = express();
 
@@ -20,7 +19,6 @@ app.use(express.json({ extended: false }));
 //ROUTES
 // app.use('/api/articles', bookRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/matching', matchingRoutes);
 
 //Check production or dev
 if (process.env.NODE_ENV === 'production') {
