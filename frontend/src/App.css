@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700,900');
+
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	font-family: 'Arvo', sans-serif;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: #f4feff;
+}
+#heroBtn:hover {
+	background-color: #8a2387;
+	transform: scale(1.1);
+	transition: all 0.2s ease-in;
+}
+
+#heroBtn {
+	background-color: #e94057;
+	color: #fff;
+	font-size: 1.1rem;
+	font-weight: 300;
+	padding: 16px 40px;
+	border-radius: 30px;
+	transition: all 0.2s linear;
+}
+
+.navbar {
+	background-color: transparent;
+}
+
+.nav-logo {
+	font-weight: 700;
+	font-size: 2rem;
+}
+
+.profileBtn:hover {
+	background-color: #0074d9;
+	transform: scale(1.03);
+	transition: all 0.2s ease-in;
+}
+
+.profileBtn {
+	background-color: #001f3f;
+	color: #fff;
+	padding: 16px;
+	width: 200px;
+	border-radius: 30px;
+	transition: all 0.2s linear;
+}
+
+.card-link {
+	color: #3b8d99;
+}
+
+.likeBtn {
+	background-color: #5d26c1;
+	border: none;
+	border-radius: 30px;
+	transition: all 0.2s linear;
+}
+
+.likeBtn:hover {
+	background-color: #26c167;
+	transform: translate(20%, -10%);
+}
+
+.dislikeBtn {
+	background-color: #2695c1;
+	border: none;
+	border-radius: 30px;
+	transition: all 0.2s linear;
+}
+
+.dislikeBtn:hover {
+	background-color: #8a1d1d;
+	transform: translate(-20%, -10%);
+}
+
+/* Stolen CSS */
+/* .pulse {
+	margin: auto;
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	background: #ffdedf;
+	box-shadow: 0 0 0 rgba(204, 169, 44, 0.4);
+	-webkit-animation: pulse 2s infinite;
+	animation: pulse 2s infinite;
+	margin-top: 50px;
+	margin-bottom: 35px;
+	border: 3px solid #f5c9ca;
+	padding: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.pulse img {
+	width: 70%;
+	border-radius: 100px;
+	border: 5px solid white;
+}
+
+.pulse:hover {
+	animation: none;
+} */
