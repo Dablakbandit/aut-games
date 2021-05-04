@@ -43,14 +43,14 @@ const GameScreen = ({ history, match }) => {
 	// const data = socket.on('tableData');
 
 	useEffect(() => {
-		// socket.on('currentSeat', (data) => {
-		// 	if (data.currentSeat === undefined) {
-		// 		history.push('/profile');
-		// 	} else {
-		// 		console.log(data);
-		// 		setCurrentPlayer(data.currentSeat);
-		// 	}
-		// });
+		socket.on('currentSeat', (data) => {
+			if (data.currentSeat === undefined) {
+				history.push('/profile');
+			} else {
+				console.log(data);
+				setCurrentPlayer(data.currentSeat);
+			}
+		});
 
 		console.log('Current player is ' + currentPlayer);
 		socket.on('tableData', (data) => {
