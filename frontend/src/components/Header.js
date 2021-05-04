@@ -21,30 +21,40 @@ const Header = () => {
 	};
 
 	return (
-		<header style={{ height: '80px', backgroundColor: 'black' }}>
-			<Navbar
-				className="navbar"
-				variant="dark"
-				// style={{ position: 'fixed' }}
-				// style={{ background: 'linear-gradient(to right, #c31432, #240b36)' }}
-			>
-				<Container>
+		<Navbar
+			className="navbar"
+			variant="dark"
+			collapseOnSelect
+			expand="md"
+			// style={{ position: 'fixed' }}
+			// style={{ background: 'linear-gradient(to right, #c31432, #240b36)' }}
+		>
+			<Container>
+				<Navbar.Brand>
 					<LinkContainer style={{ cursor: 'pointer' }} to="/">
 						<div className="nav-logo">Poker Skills</div>
 					</LinkContainer>
+				</Navbar.Brand>
+				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+				<Navbar.Collapse className="justify-content-end">
 					{user ? (
 						<>
 							<Nav className="ml-auto mr-4">
-								<LinkContainer className="mx-1" to="/search">
-									<Nav.Link>Search Matches</Nav.Link>
-								</LinkContainer>
-
-								<LinkContainer className="mx-1" to="/likedBy">
-									<Nav.Link>People Who Liked You</Nav.Link>
-								</LinkContainer>
-								<LinkContainer className="mx-1" to="/matches">
-									<Nav.Link>Matches</Nav.Link>
-								</LinkContainer>
+								<Nav.Link>
+									<LinkContainer className="mx-1" to="/search">
+										<Nav.Link>Search Matches</Nav.Link>
+									</LinkContainer>
+								</Nav.Link>
+								<Nav.Link>
+									<LinkContainer className="mx-1" to="/likedBy">
+										<Nav.Link>People Who Liked You</Nav.Link>
+									</LinkContainer>
+								</Nav.Link>
+								<Nav.Link>
+									<LinkContainer className="mx-1" to="/matches">
+										<Nav.Link>Matches</Nav.Link>
+									</LinkContainer>
+								</Nav.Link>
 							</Nav>
 							<Nav>
 								<NavDropdown
@@ -63,28 +73,35 @@ const Header = () => {
 						</>
 					) : (
 						<>
-							<Nav className="ml-auto mr-4 ">
-								<LinkContainer to="/">
-									<Nav.Link onClick={() => scrollTo('home')}>Home</Nav.Link>
-								</LinkContainer>
-								<LinkContainer to="/">
-									<Nav.Link onClick={() => scrollTo('about')}>About</Nav.Link>
-								</LinkContainer>
-
-								<LinkContainer to="/">
-									<Nav.Link onClick={() => scrollTo('team')}>Team</Nav.Link>
-								</LinkContainer>
+							<Nav className="ml-auto mr-4">
+								<Nav.Link>
+									<LinkContainer to="/">
+										<Nav.Link onClick={() => scrollTo('root')}>Home</Nav.Link>
+									</LinkContainer>
+								</Nav.Link>
+								<Nav.Link>
+									<LinkContainer to="/">
+										<Nav.Link onClick={() => scrollTo('about')}>About</Nav.Link>
+									</LinkContainer>
+								</Nav.Link>
+								<Nav.Link>
+									<LinkContainer to="/">
+										<Nav.Link onClick={() => scrollTo('team')}>Team</Nav.Link>
+									</LinkContainer>
+								</Nav.Link>
 							</Nav>
 							<Nav>
-								<LinkContainer to="/login">
-									<Nav.Link>Sign in</Nav.Link>
-								</LinkContainer>
+								<Nav.Link>
+									<LinkContainer to="/login">
+										<Nav.Link>Sign in</Nav.Link>
+									</LinkContainer>
+								</Nav.Link>
 							</Nav>
 						</>
 					)}
-				</Container>
-			</Navbar>
-		</header>
+				</Navbar.Collapse>
+			</Container>
+		</Navbar>
 	);
 };
 

@@ -38,14 +38,18 @@ const Developers = () => {
 					<Col sm={8} md={4}>
 						<Fade bottom>
 							<Card style={{ boxShadow: '3px 5px #FBD3E9' }}>
-								<Card.Img variant="top" src="img/devTeam/team1.jpg" />
+								<Card.Img
+									variant="top"
+									src="img/devTeam/team1.jpg"
+									style={{ height: '350px' }}
+								/>
 								<Card.Header style={cardHeader}>Aldar Batomunkuev</Card.Header>
 
 								<Card.Body>
 									<Card.Title style={cardTitle}>UX UI Designer </Card.Title>
 									<Card.Text style={textStyle}>
-										Just a student with a part time job and 2 exams tomorrow,
-										who wants to win this Hackathon
+										Just a student with a part time job and who wants to win,
+										this Hackathon!!!
 									</Card.Text>
 								</Card.Body>
 							</Card>
@@ -54,15 +58,18 @@ const Developers = () => {
 					<Col sm={8} md={4}>
 						<Fade bottom>
 							<Card style={{ boxShadow: '3px 5px #FBD3E9' }}>
-								<Card.Img variant="top" src="img/devTeam/team2.jpg" />
+								<Card.Img
+									variant="top"
+									src="img/devTeam/team2.jpg"
+									style={{ height: '350px' }}
+								/>
 
 								<Card.Header style={cardHeader}>Aldar Batomunkuev</Card.Header>
 
 								<Card.Body>
 									<Card.Title style={cardTitle}>Frontend Developer </Card.Title>
 									<Card.Text style={textStyle}>
-										Seriously I did it all by myself this was really stressful.
-										I wanna WINNNN
+										Seriously this was really stressful. I wanna WINNNN
 									</Card.Text>
 								</Card.Body>
 							</Card>
@@ -71,16 +78,20 @@ const Developers = () => {
 					<Col sm={8} md={4}>
 						<Fade bottom>
 							<Card style={{ boxShadow: '3px 5px #FBD3E9' }}>
-								<Card.Img variant="top" src="img/devTeam/team3.jpg" />
+								<Card.Img
+									variant="top"
+									src="img/devTeam/team4.jpg"
+									style={{ height: '350px' }}
+								/>
 
-								<Card.Header style={cardHeader}>Aldar Batomunkuev</Card.Header>
+								<Card.Header style={cardHeader}>Ashley Thew</Card.Header>
 
 								<Card.Body>
-									<Card.Title style={cardTitle}>Backend Engineer </Card.Title>
+									<Card.Title style={cardTitle}>Backend Engineer</Card.Title>
 
 									<Card.Text style={textStyle}>
-										I hope someone can appreciate the effort I put in this team.
-										(Not a vegan)
+										Gotta love taking apart c++ code in a node package, just to
+										find a method not in the documentation.
 									</Card.Text>
 								</Card.Body>
 							</Card>

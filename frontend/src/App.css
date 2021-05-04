@@ -42,6 +42,10 @@ body {
 	z-index: 999;
 }
 
+.navbar-collapse {
+	background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+}
+
 .nav-logo {
 	color: rgb(155, 15, 15);
 
