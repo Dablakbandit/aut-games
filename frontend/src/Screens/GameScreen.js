@@ -63,7 +63,7 @@ const GameScreen = ({ history, match }) => {
 	}, [mainPlayer]);
 
 	const handleLeave = () => {
-		// socket.emit('createTable', { tableId: id });
+		socket.disconnect();
 	};
 	const handleFold = () => {};
 	const handleCheck = () => {};
@@ -117,7 +117,7 @@ const GameScreen = ({ history, match }) => {
 					className="d-flex justify-content-center mt-5 flex-column"
 					style={{ zIndex: 1031 }}
 				>
-					<Button className="ml-5 mt-5 " variant="danger">
+					<Button onClick={handleLeave} className="ml-5 mt-5 " variant="danger">
 						Leave
 					</Button>
 					<Button className="ml-5  my-3" variant="primary">
