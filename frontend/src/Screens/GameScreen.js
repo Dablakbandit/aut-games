@@ -54,7 +54,7 @@ const GameScreen = ({ history, match }) => {
 
 	useEffect(() => {
 		socket.emit('joinTable', { tableId: gameId });
-		socket.emit('sitTable', { chips: mainPlayer.numberOfChips });
+		socket.emit('sitTable', { token: user.token });
 	}, [gameId, mainPlayer]);
 
 	useEffect(() => {

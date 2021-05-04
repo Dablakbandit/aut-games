@@ -30,7 +30,7 @@ exports.authUser = asyncHandler(async (req, res) => {
 //@route Post /api/users/login
 //@access Public
 exports.registerUser = asyncHandler(async (req, res) => {
-	const { name, email, password, age } = req.body;
+	const { name, email, password } = req.body;
 
 	const userExists = await User.findOne({ email });
 
@@ -62,6 +62,25 @@ exports.registerUser = asyncHandler(async (req, res) => {
 //@route Post /api/users/profile
 //@access Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id);
+
+	if (user) {
+		res.json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			chips: user.chips,
+		});
+	} else {
+		res.status(404);
+		throw new Error('User not found');
+	}
+});
+
+//@desc get user profile
+//@route Post /api/users/profile
+//@access Private
+exports.getAllUsersChips = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.params.id);
 
 	if (user) {
