@@ -7,14 +7,15 @@ const Footer = () => {
 			<Container>
 				<Row>
 					<Col md={4} className="text-center py-3">
-						Copyright &copy; Aldar
+						Copyright &copy; Aldar & Ashley
 					</Col>
 					<Col md={4} className="text-center py-3">
 						<div>Author:</div>
 						<div>Aldar</div>
+						<div>Ashlet</div>
 					</Col>
 					<Col md={4} className="text-center py-3">
-						Made for Perfect Match Hackathon
+						Made for AUT GAME HACKATHON
 					</Col>
 				</Row>
 			</Container>

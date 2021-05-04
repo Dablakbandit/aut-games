@@ -34,7 +34,7 @@ const Developers = () => {
 		<div id="team" style={{ minHeight: '100vh' }}>
 			<Container className="d-flex flex-column justify-content-center align-items-center h-100 my-5">
 				<h2 style={headerStyle}>Our team</h2>
-				<Row>
+				<Row className="d-flex justify-content-center">
 					<Col sm={8} md={4}>
 						<Fade bottom>
 							<Card style={{ boxShadow: '3px 5px #FBD3E9' }}>
@@ -49,8 +49,8 @@ const Developers = () => {
 									<Card.Title style={cardTitle}>UX UI Designer </Card.Title>
 									<Card.Text style={textStyle}>
 										Just a student with a part time job and who wants to win,
-										this Hackathon!!! Seriously this was really stressful. I
-										wanna WINNNN
+										this Hackathon!! Seriously this was really stressful. I
+										wanna WIN
 									</Card.Text>
 								</Card.Body>
 							</Card>
