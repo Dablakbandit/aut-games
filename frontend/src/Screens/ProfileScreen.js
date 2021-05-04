@@ -20,7 +20,7 @@ const backgroundStyle = {
 
 const Profile = ({ history, match }) => {
 	const id = match.params.id;
-	const [gameId, setGameId] = useState([]);
+	const [gameId, setGameId] = useState('');
 	const { user } = useContext(UserContext);
 
 	useEffect(() => {
@@ -32,15 +32,17 @@ const Profile = ({ history, match }) => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 
-		const id = uuidv4();
-		const result = socket.emit('joinTable', { tableId: id });
+		if (gameId?.length !== 0) {
+			const result = socket.emit('joinTable', { tableId: gameId });
 
-		if (result.connected) {
-			history.push(`/game/${id}`);
+			if (result.connected) {
+				history.push(`/game/${gameId}`);
+			} else {
+				alert('failed to connect ');
+			}
 		} else {
-			alert('failed to connect ');
+			alert('Please enter game id');
 		}
-		console.log(result);
 	};
 
 	const handleCreate = () => {

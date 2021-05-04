@@ -54,23 +54,26 @@ class PokerPlayer {
 	};
 
 	joinActiveTable = (data) => {
+		console.log(data);
 		// Look up the room ID in the Socket.IO manager object.
 		var tableRoom = this.socketio.sockets.adapter.rooms[data.tableId];
 
 		// Fetch active table
 		var table = activeTables[data.tableId];
 
+		console.log(tableRoom);
+		console.log(table);
+
 		// If the room and table doesnt exist
 		if (tableRoom === undefined || table == undefined) {
 			this.gameSocket.emit('status', 'Unknown poker table');
 			return;
 		}
-
 		// Check table constriants
 		if (tableRoom.length < 2 && table.players.length < 2) {
 			// Attach the socket id to the data object.
 			data.mySocketId = this.id;
-
+			console.log('Joined table');
 			// Join the room
 			this.gameSocket.join(data.tableId);
 
