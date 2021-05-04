@@ -17,18 +17,34 @@ const backgroundStyle = {
 	height: '100vh',
 };
 
-const handleCreate = () => {
-	const id = uuidv4();
-	socket.emit('createTable', { tableId: id });
-	// console.log(id);
-};
-
 const Profile = ({ history, match }) => {
 	const id = match.params.id;
 	const [gameId, setGameId] = useState([]);
 
-	const submitHandler = async (e) => {
+	const submitHandler = (e) => {
 		e.preventDefault();
+
+		const id = uuidv4();
+		const result = socket.emit('joinTable', { tableId: id });
+
+		if (result.connected) {
+			history.push(`/${id}`);
+		} else {
+			alert('failed to connect ');
+		}
+		console.log(result);
+	};
+
+	const handleCreate = () => {
+		const id = uuidv4();
+		const result = socket.emit('createTable', { tableId: id });
+
+		if (result.connected) {
+			history.push(`/${id}`);
+		} else {
+			alert('failed to connect ');
+		}
+		// console.log(id);
 	};
 
 	return (
