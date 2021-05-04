@@ -3,13 +3,14 @@
 	"version": "1.0.0",
 	"main": "server.js",
 	"scripts": {
+		"swagger-autogen": "node backend/swagger",
 		"start": "node backend/server",
 		"server": "nodemon backend/server",
 		"client": "npm start --prefix frontend",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
 		"data:import": "node backend/config/seeder",
 		"data:destroy": "node backend/config/seeder -d",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend && npm run swagger-autogen"
 	},
 	"author": "Aldar",
 	"license": "ISC",
@@ -26,6 +27,8 @@
 		"mongoose": "^5.12.3",
 		"nodemon": "^2.0.7",
 		"poker": "git+https://github.com/AshleyThew/poker.js.git",
-		"socket.io": "^4.0.1"
+		"socket.io": "^4.0.1",
+		"swagger-autogen": "^2.8.1",
+		"swagger-ui-express": "^4.1.6"
 	}
 }

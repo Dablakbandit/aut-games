@@ -8,6 +8,8 @@ const { notFound, errorHandler } = require('./middleware/error');
 const http = require('http');
 const socketio = require('socket.io');
 const PokerPlayer = require('./game/poker/PokerPlayer');
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('../swagger_output.json');
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -26,8 +28,10 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ extended: false }));
 
 //ROUTES
-// app.use('/api/articles', bookRoutes);
 app.use('/api/users', userRoutes);
+
+// DOCUMENTATION
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //Check production or dev
 if (process.env.NODE_ENV === 'production') {
