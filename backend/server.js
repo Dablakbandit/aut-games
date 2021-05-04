@@ -7,7 +7,7 @@ const path = require('path');
 const { notFound, errorHandler } = require('./middleware/error');
 const http = require('http');
 const socketio = require('socket.io');
-const poker = require('poker');
+const pokerPlayer = require('./game/poker/PokerPlayer');
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -47,43 +47,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 socketServer.on('connection', (socket) => {
-    socket.on('test', function (msg) {
-        const table = new poker.Table({
-            ante: 0,
-            smallBlind: 10,
-            bigBlind: 20,
-            seats: 2,
-        });
-        table.sitDown(0, 1000); // seat a player at seat 0 with 1000 chips buy-in
-        table.sitDown(1, 1500); // seat a player at seat 2 with 1500 chips buy-in
-        table.startHand();
-        console.log(table.handPlayers());
-        console.log(table.holeCards());
-        table.actionTaken('bet', 20);
-        table.actionTaken('check');
-        table.endBettingRound();
-        console.log(table.pots());
-
-        table.actionTaken('check');
-        table.actionTaken('check');
-        table.endBettingRound();
-
-        table.actionTaken('check');
-        table.actionTaken('check');
-        table.endBettingRound();
-
-        table.actionTaken('check');
-        table.actionTaken('check');
-        table.endBettingRound();
-        table.showdown();
-
-        table.startHand();
-
-        console.log(table.seats());
-        table.actionTaken('call');
-        table.actionTaken('check');
-        console.log(table);
-    });
+    pokerPlayer.setupSocket(socketServer, socket);
 });
 
 const port = process.env.PORT || 5000;
