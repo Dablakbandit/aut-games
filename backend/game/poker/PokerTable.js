@@ -56,6 +56,12 @@ class PokerTable {
 			seats: table.seats(),
 		};
 
+		this.players.forEach((player) => {
+			if (player.currentSeat !== undefined && player.user) {
+				tableData.seats[player.currentSeat].name = player.user.name;
+			}
+		});
+
 		// Check for current hand in progress
 		if (table.isHandInProgress()) {
 			// Assign table hand information
@@ -198,6 +204,8 @@ class PokerTable {
 			this.table.standUp(pokerPlayer.currentSeat);
 
 			// TODO refund
+			pokerPlayer.user.chips += stackSize;
+			pokerPlayer.user.save();
 			console.log('Refund ' + stackSize);
 
 			// Emit player leave to all players

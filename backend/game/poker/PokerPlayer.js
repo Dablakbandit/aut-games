@@ -138,32 +138,42 @@ class PokerPlayer {
 	 * 	Sit the player at the current table with predefined chip amount
 	 *
 	 * 	@param  {Object} data - Data passed from the socket
-	 * 	@param  {number} data.chips - Amount of chips to sit down with
-	 * 	@param  {string} data.token - Amount of chips to sit down with
+	 * 	@param  {string} data.token - Token of the user
 	 */
 	sitTable = async (data) => {
-		// If chips are valid and has current table
-		if (!isNaN(data.chips) && data.token && this.currentTable) {
+		// If token is set and has current table
+		if (data.token && this.currentTable) {
 			var token = data.token;
 
+			// Check token validity
 			const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
 			this.user = await User.findById(decoded.id).select('-password');
 			console.log(this.user);
+
+			// Get users chips
 			var { chips } = this.user;
-			if (chips === undefined) {
+
+			if (chips === undefined || chips === 0) {
 				// Unable to sit down emitting empty seat redirects player
-				this.gameSocket.emit('currentSeat', {});
+				this.disconnectFromTable();
 				return;
 			}
+			this.user.chips -= chips;
+
+			await this.user.save();
 
 			// Sit down at the table and assign current seat
-			this.currentSeat = this.currentTable.sit(this, user.chips);
+			this.currentSeat = this.currentTable.sit(this, chips);
+
+			// Attempt to start the table if not currently running
+			this.currentTable.attemptStart();
+
+			console.log(this.currentSeat, this.user.name);
 
 			// Alert all players of the player sitting down
 			this.socketio.sockets.in(this.currentTable.tableId).emit('playerSitDown', {
 				seatId: this.currentSeat,
-				chips: data.chips,
+				chips: chips,
 			});
 		} else {
 			// Unable to sit down emitting empty seat redirects player
@@ -194,11 +204,11 @@ class PokerPlayer {
 
 			// Emit empty current seat redirecting user
 			this.gameSocket.emit('currentSeat', {});
-		}
 
-		// Cleanup variables
-		this.currentTable = undefined;
-		this.currentSeat = undefined;
+			// Cleanup variables
+			this.currentTable = undefined;
+			this.currentSeat = undefined;
+		}
 	};
 
 	// TABLE ACTIONS //

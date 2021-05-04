@@ -4,13 +4,15 @@ import { Card, Button, Row, Col, FormControl, InputGroup, Modal } from 'react-bo
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { socket } from '../socket';
 import { UserContext } from '../UserContext';
+import { FacebookShareButton, FacebookIcon } from 'react-share';
+import { useLocation } from 'react-router-dom';
 
 const backgroundStyle = {
 	background: 'url("../img/table.jpg")',
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
 	height: '100vh',
-	width: '100wh',
+	width: '100vw',
 	position: 'fixed',
 };
 
@@ -96,7 +98,6 @@ const GameScreen = ({ history, match }) => {
 			} else if (data) {
 				var mappedPlayers = [...players];
 				for (let i = 0; i < data.seats.length; i++) {
-					console.log(i, data.seats[i]);
 					if (data.seats[i] !== null) {
 						mappedPlayers[i] = data.seats[i];
 					} else {
@@ -217,20 +218,25 @@ const GameScreen = ({ history, match }) => {
 					<Modal.Title>Invite players</Modal.Title>
 				</Modal.Header>
 				<Modal.Body style={{ fontSize: '1rem', textAlign: 'center' }}>
-					Please send this:
-					<div className="d-flex align-items-center justify-content-center">
-						<strong>{gameId}</strong>
-						<img
-							onClick={() => {
-								window.navigator.clipboard.writeText(gameId);
-							}}
-							style={{ cursor: 'pointer' }}
-							src="../img/clipboard.png"
-							id="clipboard"
-							alt="clipboard"
-						/>
+					<div>
+						Share this id:
+						<div className="d-flex align-items-center justify-content-center">
+							<strong>{gameId}</strong>
+							<img
+								onClick={() => {
+									window.navigator.clipboard.writeText(gameId);
+								}}
+								style={{ cursor: 'pointer' }}
+								src="../img/clipboard.png"
+								id="clipboard"
+								alt="clipboard"
+							/>
+						</div>
+						with your friends to play.
 					</div>
-					to your friends.
+					<FacebookShareButton url={useLocation().pathname} quote={'Play poker now!'}>
+						<FacebookIcon size={32} round />
+					</FacebookShareButton>
 				</Modal.Body>
 			</Modal>
 			<Row className="d-flex mt-auto justify-content-around fixed-bottom">
