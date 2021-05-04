@@ -39,10 +39,10 @@ const Hero = () => {
 				<h1 style={headerStyle}>Your game awaits</h1>
 				<Row>
 					<LinkContainer to="/register" className="mx-2">
-						<Button id="heroBtn">Join now</Button>
+						<Button className="heroBtn">Join now</Button>
 					</LinkContainer>
 					<LinkContainer to="/login" className="mx-2">
-						<Button id="heroBtn">Start Playing</Button>
+						<Button className="heroBtn">Start Playing</Button>
 					</LinkContainer>
 				</Row>
 			</Container>

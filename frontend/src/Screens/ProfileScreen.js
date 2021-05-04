@@ -38,20 +38,16 @@ const Profile = ({ history, match }) => {
 							<Form.Group controlId="formBasicEmail">
 								<Form.Label className="test-style ">Game id</Form.Label>
 								<Form.Control
-									type="gameId"
+									type="text"
+									name="gameId"
 									placeholder="Enter Game ID"
 									value={gameId}
 									onChange={(e) => setGameId(e.target.value)}
 								></Form.Control>
 							</Form.Group>
-							<Button className="mx-3">Create a game</Button>
+							<Button className="mx-3 heroBtn">Create a game</Button>
 
-							<Button
-								className="mx-3"
-								type="submit"
-								variant="primary"
-								className="my-2"
-							>
+							<Button className="mx-3 heroBtn" type="submit" variant="primary">
 								Join a game
 							</Button>
 						</Form>

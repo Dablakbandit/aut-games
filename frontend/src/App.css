@@ -10,19 +10,20 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	background-color: rgb(194, 194, 194);
 }
-#heroBtn:hover {
+.heroBtn:hover {
 	background-color: #ce1313;
 	transform: scale(1.1);
 	transition: all 0.2s ease-in;
 }
 
-#heroBtn {
+.heroBtn {
 	background-color: #a52a2a;
 	color: #fff;
 	font-size: 1.1rem;
 	font-weight: 300;
 	padding: 16px 40px;
 	transition: all 0.2s linear;
+	border: none;
 }
 
 .navText {
