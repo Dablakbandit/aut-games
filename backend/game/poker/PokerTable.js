@@ -68,8 +68,6 @@ class PokerTable {
 		for (var seat = 0; seat < maxSeats; seat++) {
 			if (seats[seat] === null) {
 				activeSeats++;
-			} else {
-				activeSeats++;
 			}
 		}
 		if (activeSeats == 2) {

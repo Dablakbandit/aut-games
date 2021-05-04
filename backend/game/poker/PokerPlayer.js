@@ -166,7 +166,7 @@ class PokerPlayer {
 			var { players } = this.currentTable;
 			this.currentTable.leaveTable(this);
 			if (players.length == 0) {
-				delete activeTables[currentTable.tableId];
+				delete activeTables[this.currentTable.tableId];
 			}
 		}
 
