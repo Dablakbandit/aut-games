@@ -4,7 +4,14 @@ import { Card, Button, Row, Col, FormControl, InputGroup, Modal } from 'react-bo
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { socket } from '../socket';
 import { UserContext } from '../UserContext';
-import { FacebookShareButton, FacebookIcon } from 'react-share';
+import {
+	FacebookShareButton,
+	FacebookIcon,
+	TwitterShareButton,
+	TwitterIcon,
+	WhatsappShareButton,
+	WhatsappIcon,
+} from 'react-share';
 import { useLocation } from 'react-router-dom';
 
 const backgroundStyle = {
@@ -234,9 +241,16 @@ const GameScreen = ({ history, match }) => {
 						</div>
 						with your friends to play.
 					</div>
+					<hr />
 					<FacebookShareButton url={window.location.href} quote={'Play poker now!'}>
 						<FacebookIcon size={32} round />
 					</FacebookShareButton>
+					<TwitterShareButton url={window.location.href} title={'Play poker now!'}>
+						<TwitterIcon size={32} round />
+					</TwitterShareButton>
+					<WhatsappShareButton url={window.location.href} title={'Play poker now!'}>
+						<WhatsappIcon size={32} round />
+					</WhatsappShareButton>
 				</Modal.Body>
 			</Modal>
 			<Row className="d-flex mt-auto justify-content-around fixed-bottom">
