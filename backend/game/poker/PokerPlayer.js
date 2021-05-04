@@ -278,7 +278,7 @@ class PokerPlayer {
 			var { totalChips } = seats[this.currentSeat];
 			var maxBetSize = this.getMaxBet(seats);
 			var minBet = maxBetSize + this.currentTable.table.forcedBets().bigBlind;
-			if (raise > minBet && raise <= totalChips) {
+			if (raise >= minBet && raise <= totalChips) {
 				this.currentTable.actionTable('raise', raise);
 			}
 		}
