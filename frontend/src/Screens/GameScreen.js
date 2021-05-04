@@ -43,10 +43,6 @@ const GameScreen = ({ history, match }) => {
 	// const data = socket.on('tableData');
 
 	useEffect(() => {
-		// if (gameId) {
-		// 	alert('game id is ' + gameId);
-		// }
-		// setPlayers(pokerPlayers);
 		socket.on('currentSeat', (data) => {
 			if (data.currentSeat === undefined) {
 				history.push('/profile');
@@ -116,8 +112,18 @@ const GameScreen = ({ history, match }) => {
 					<Modal.Title>Invite players</Modal.Title>
 				</Modal.Header>
 				<Modal.Body style={{ fontSize: '1rem', textAlign: 'center' }}>
-					Please send this: <br />
-					<strong>{gameId}</strong> <br />
+					Please send this:
+					<div className="d-flex align-items-center justify-content-center">
+						<strong>{gameId}</strong>
+						<img
+							onClick={() => {
+								window.navigator.clipboard.writeText(gameId);
+							}}
+							style={{ cursor: 'pointer' }}
+							src="../img/clipboard.png"
+							alt="clipboard"
+						/>
+					</div>
 					to your friends.
 				</Modal.Body>
 			</Modal>
