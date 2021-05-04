@@ -15,6 +15,10 @@ const User = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	chips: {
+		type: Number,
+		default: 1000,
+	},
 });
 
 //USER AUTHENTICATION METHOD
