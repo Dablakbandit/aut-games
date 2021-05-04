@@ -39,15 +39,18 @@ const GameScreen = ({ history, match }) => {
 		// 	alert('game id is ' + gameId);
 		// }
 
-		const d = socket.on('tableData', (data) => {
+		socket.on('tableData', (data) => {
 			console.log(data);
 		});
 
-		console.log(d);
-
 		setPlayers(pokerPlayers);
 		setSelf(mainPlayer);
-	}, []);
+
+		console.log(self.numberOfChips);
+		console.log(self);
+
+		if (self) socket.emit('sitTable', { chips: self.numberOfChips });
+	}, [self]);
 
 	const handleLeave = () => {
 		// socket.emit('createTable', { tableId: id });

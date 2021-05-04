@@ -61,7 +61,8 @@ class PokerTable {
 	};
 
 	attemptStart = () => {
-		var { seats, table } = this;
+		var { table } = this;
+		var seats = this.table.seats();
 		var activeSeats = 0;
 		for (var seat = 0; seat < maxSeats; seat++) {
 			if (seats[seat] === null) {
@@ -79,7 +80,7 @@ class PokerTable {
 	leaveTable = (pokerPlayer) => {
 		var i = this.players.indexOf(pokerPlayer);
 		this.players.splice(i, 1);
-		if (pokerPlayer.currentSeat != -1) {
+		if (pokerPlayer.currentSeat) {
 			//TODO check if current action?
 			this.table.standUp(pokerPlayer.currentSeat);
 			this.socketio.sockets

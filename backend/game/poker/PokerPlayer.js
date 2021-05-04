@@ -94,10 +94,10 @@ class PokerPlayer {
 	sitTable = (data) => {
 		if (!isNaN(data.chips) && this.currentTable) {
 			this.currentSeat = this.currentTable.sit(this, data.chips);
-			this.gameSocket.emit('currentSeat', { currentSeat: currentSeat });
-			if (currentSeat != -1) {
+			this.gameSocket.emit('currentSeat', { currentSeat: this.currentSeat });
+			if (this.currentSeat != -1) {
 				this.socketio.sockets.in(this.currentTable.tableId).emit('playerSitDown', {
-					seatId: currentSeat,
+					seatId: this.currentSeat,
 					chips: data.chips,
 				});
 			}
