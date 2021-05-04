@@ -10,32 +10,32 @@ class PokerPlayer {
 		this.currentTable = undefined;
 		this.currentSeat = undefined;
 
-		// Run code when the client disconnects from their socket session.
+		// Remove player from table on disconnect or button press
 		gameSocket.on('disconnect', this.disconnectFromTable);
 		gameSocket.on('leaveTable', this.disconnectFromTable);
 
-		// User creates new poker table
+		// Player creates new poker table
 		gameSocket.on('createTable', this.createTable);
 
-		// User wants to join an active table
+		// Player wants to join an active table
 		gameSocket.on('joinTable', this.joinActiveTable);
 
-		// User wants to sit at active table
+		// Player wants to sit at active table
 		gameSocket.on('sitTable', this.sitTable);
 
-		// User wants to fold at active table
+		// Player wants to fold at active table
 		gameSocket.on('foldTable', this.foldTable);
 
-		// User wants to check at active table
+		// Player wants to check at active table
 		gameSocket.on('checkTable', this.checkTable);
 
-		// User wants to call at active table
+		// Player wants to call at active table
 		gameSocket.on('callTable', this.callTable);
 
-		// User wants to raise at active table
+		// Player wants to raise at active table
 		gameSocket.on('raiseTable', this.raiseTable);
 
-		// User wants to bet at active table
+		// Player wants to bet at active table
 		gameSocket.on('betTable', this.betTable);
 
 		this.setupVideoChat();
@@ -54,38 +54,42 @@ class PokerPlayer {
 		});
 	};
 
+	// TABLE SETUP //
+
+	/**
+	 * 	Join an active poker table
+	 *
+	 * 	@param  {Object} data - Data passed from the socket
+	 * 	@param  {string} data.tableId - Tableid of the table attempting to join
+	 */
 	joinActiveTable = (data) => {
+		// Disconnect from any active table
 		this.disconnectFromTable();
 		var { tableId } = data;
-		// Look up the room ID in the Socket.IO manager object.
+
+		// Look up the room ID in the Socket.IO
 		var tableRoom = this.socketio.sockets.adapter.rooms.get(tableId);
 
-		// Fetch active table
+		// Fetch active table from storage
 		var table = activeTables[tableId];
 
-		// If the room and table doesnt exist
+		// If the room or table doesnt exist
 		if (tableRoom === undefined || table === undefined) {
 			this.gameSocket.emit('status', 'Unknown poker table');
 			return;
 		}
 
-		// Check table constriants
-		if (tableRoom.size < 2 && table.players.length < 2) {
+		// If able to join the table
+		if (table.join(this)) {
 			// Attach the socket id to the data object.
 			data.mySocketId = this.id;
 			// Join the room
 			this.gameSocket.join(tableId);
 
-			// Start betting when two players have sat down
-			if (table.length === 2) {
-				this.socketio.sockets.in(data.tableId).emit('startSomething', idData.userName);
-			}
-
 			// Emit an event notifying the clients that the player has joined the room.
 			this.socketio.sockets.in(data.tableId).emit('playerJoinTable', data);
 
 			// Set the current table
-			table.joinTable(this);
 			table.updatePlayers();
 			this.currentTable = table;
 		} else {
@@ -94,34 +98,118 @@ class PokerPlayer {
 		}
 	};
 
-	sitTable = (data) => {
-		if (!isNaN(data.chips) && this.currentTable) {
-			this.currentSeat = this.currentTable.sit(this, data.chips);
-		} else {
-			this.gameSocket.emit('currentSeat', {});
+	/**
+	 * 	Create and join a new poker table
+	 *
+	 * 	@param  {Object} data - Data passed from the socket
+	 * 	@param  {string} data.tableId - Tableid of the table attempting to create
+	 */
+	createTable = (data) => {
+		// Disconnect from any active table
+		this.disconnectFromTable();
+		var tableId = data.tableId;
+
+		// If table already exists
+		if (activeTables[tableId]) {
+			// Emit event to notify player table already exists
+			this.gameSocket.emit('status', 'Poker table already exists');
+			return;
 		}
 
-		if (this.currentSeat) {
+		// Return the Table ID and the socket ID to the sender
+		this.gameSocket.emit('createTable', {
+			tableId: tableId,
+			mySocketId: this.gameSocket.id,
+		});
+
+		// Join the socket room
+		this.gameSocket.join(tableId);
+
+		// Create table object
+		var newTable = new PokerTable(this.socketio, tableId);
+		// Insert into active tables
+		activeTables[tableId] = newTable;
+
+		// Join the new table
+		newTable.joinTable(this);
+		// Update table data to user
+		newTable.updatePlayers();
+
+		// Assign current table
+		this.currentTable = newTable;
+	};
+
+	/**
+	 * 	Sit the player at the current table with predefined chip amount
+	 *
+	 * 	@param  {Object} data - Data passed from the socket
+	 * 	@param  {number} data.chips - Amount of chips to sit down with
+	 */
+	sitTable = (data) => {
+		// If chips are valid and has current table
+		if (!isNaN(data.chips) && this.currentTable) {
+			// Sit down at the table and assign current seat
+			this.currentSeat = this.currentTable.sit(this, data.chips);
+
+			// Alert all players of the player sitting down
 			this.socketio.sockets.in(this.currentTable.tableId).emit('playerSitDown', {
 				seatId: this.currentSeat,
 				chips: data.chips,
 			});
+		} else {
+			// Unable to sit down emitting empty seat redirects player
+			this.gameSocket.emit('currentSeat', {});
 		}
 	};
 
-	foldTable = () => {
-		if (this.currentTable && this.currentSeat != undefined) {
-			this.currentTable.actionTable(this, 'fold');
+	/**
+	 * 	Disconnect player from the current table
+	 *
+	 */
+	disconnectFromTable = () => {
+		// If we have a current table
+		if (this.currentTable) {
+			// Leave the table room
+			this.gameSocket.leave(this.currentTable.tableId);
+
+			// Leave the table
+			this.currentTable.leaveTable(this);
+
+			// Get current players
+			var { players } = this.currentTable;
+			// If table is empty
+			if (players.length === 0) {
+				// Remove index of table
+				delete activeTables[this.currentTable.tableId];
+			}
+
+			// Emit empty current seat redirecting user
+			this.gameSocket.emit('currentSeat', {});
 		}
+
+		// Cleanup variables
+		this.currentTable = undefined;
+		this.currentSeat = undefined;
 	};
 
+	// TABLE ACTIONS //
+
+	/**
+	 * Fetch the maximum current bet from the table
+	 * @param {Object[]} seats - Array of all seats at a table
+	 */
 	getMaxBet = (seats) => {
+		// Filter empty seats, map to current bet size then apply Math.max
 		return Math.max.apply(
 			Math,
 			seats.filter((seat) => seat !== null).map((seat) => seat.betSize)
 		);
 	};
 
+	/**
+	 * Ensure the current table is active and actions are possible
+	 * @returns {boolean} if the table is valid
+	 */
 	ensureActiveTable = () => {
 		if (this.currentTable === undefined || this.currentSeat === undefined) {
 			return false;
@@ -138,6 +226,20 @@ class PokerPlayer {
 		return true;
 	};
 
+	/**
+	 * Perform the fold action on the current table
+	 *
+	 */
+	foldTable = () => {
+		if (this.ensureActiveTable()) {
+			this.currentTable.actionTable(this, 'fold');
+		}
+	};
+
+	/**
+	 * Perform the check action on the current table
+	 *
+	 */
 	checkTable = () => {
 		if (this.ensureActiveTable()) {
 			var seats = this.currentTable.table.seats();
@@ -149,6 +251,10 @@ class PokerPlayer {
 		}
 	};
 
+	/**
+	 * Perform the call action on the current table
+	 *
+	 */
 	callTable = () => {
 		if (this.ensureActiveTable()) {
 			var seats = this.currentTable.table.seats();
@@ -160,6 +266,11 @@ class PokerPlayer {
 		}
 	};
 
+	/**
+	 * Perform the raise action on the current table
+	 * 	@param  {Object} data - Data passed from the socket
+	 * 	@param  {number} data.raise - Amount of chips to raise
+	 */
 	raiseTable = (data) => {
 		if (this.ensureActiveTable() && !isNaN(data.raise)) {
 			var raise = data.raise;
@@ -173,6 +284,11 @@ class PokerPlayer {
 		}
 	};
 
+	/**
+	 * Perform the bet action on the current table
+	 * 	@param  {Object} data - Data passed from the socket
+	 * 	@param  {number} data.bet - Amount of chips to bet
+	 */
 	betTable = (data) => {
 		if (this.ensureActiveTable() && !isNaN(data.bet)) {
 			var bet = data.bet;
@@ -189,51 +305,7 @@ class PokerPlayer {
 			}
 		}
 	};
-
-	createTable = (data) => {
-		this.disconnectFromTable();
-		var tableId = data.tableId;
-
-		if (activeTables[tableId]) {
-			this.gameSocket.emit('status', 'Poker table already exists');
-			return;
-		}
-
-		// Return the Table ID and the socket ID to the sender
-		this.gameSocket.emit('createTable', {
-			tableId: tableId,
-			mySocketId: this.gameSocket.id,
-		});
-
-		// Join the socket room
-		this.gameSocket.join(tableId);
-
-		// Create table object
-		var newTable = new PokerTable(this.socketio, tableId);
-		// Update active tables
-		activeTables[tableId] = newTable;
-
-		// Set the current table
-		newTable.joinTable(this);
-		newTable.updatePlayers();
-		this.currentTable = newTable;
-	};
-
-	disconnectFromTable = () => {
-		if (this.currentTable) {
-			this.gameSocket.leave(this.currentTable.tableId);
-			var { players } = this.currentTable;
-			this.currentTable.leaveTable(this);
-			if (players.length === 0) {
-				delete activeTables[this.currentTable.tableId];
-			}
-			this.gameSocket.emit('currentSeat', {});
-		}
-
-		// Cleanup
-		this.currentTable = undefined;
-		this.currentSeat = undefined;
-	};
 }
 
+// Export class
 module.exports = PokerPlayer;
