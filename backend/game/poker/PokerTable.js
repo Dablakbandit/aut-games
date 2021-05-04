@@ -27,6 +27,7 @@ class PokerTable {
 			tableData['cards'] = table.holeCards();
 			tableData['round'] = table.roundOfBetting();
 			tableData['community'] = table.communityCards();
+			tableData['pot'] = table.pots()[0].size;
 			if (table.isBettingRoundInProgress()) {
 				tableData['active'] = table.playerToAct();
 				tableData['button'] = table.button();
