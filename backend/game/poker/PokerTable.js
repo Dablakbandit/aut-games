@@ -54,6 +54,7 @@ class PokerTable {
 			if (seats[seat] === null) {
 				sit = seat;
 				table.sitDown(seat, chips);
+				break;
 			}
 		}
 		this.attemptStart();
