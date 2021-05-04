@@ -14,8 +14,7 @@ const Hero = () => {
     };
 
     const containerStyle = {
-        background:
-            'linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1))',
+        background: 'linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1))',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         height: '100vh',
@@ -25,8 +24,7 @@ const Hero = () => {
         objectFit: 'cover',
         width: '100%',
         height: '100%',
-        background:
-            'linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1))',
+        background: 'linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1))',
 
         position: 'absolute',
         zIndex: '-1',
@@ -34,23 +32,17 @@ const Hero = () => {
 
     return (
         <div style={containerStyle}>
-            <video
-                style={videoStyle}
-                src="./img/dices.mp4"
-                autoPlay
-                loop
-                muted
-            />
+            <video style={videoStyle} src="./img/dices.mp4" autoPlay loop muted />
             {/* <Header></Header> */}
 
             <Container className="vh-100 d-flex flex-column  align-items-center">
                 <h1 style={headerStyle}>Your game awaits</h1>
                 <Row>
                     <LinkContainer to="/register" className="mx-2">
-                        <Button id="heroBtn">Join now</Button>
+                        <Button className="heroBtn">Join now</Button>
                     </LinkContainer>
                     <LinkContainer to="/login" className="mx-2">
-                        <Button id="heroBtn">Start Playing</Button>
+                        <Button className="heroBtn">Start Playing</Button>
                     </LinkContainer>
                 </Row>
             </Container>
