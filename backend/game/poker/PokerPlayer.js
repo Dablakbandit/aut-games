@@ -114,15 +114,20 @@ class PokerPlayer {
 		}
 	};
 
+	maxBetSize = () => {
+		var seats = this.currentTable.table.seats();
+		return Math.max.apply(
+			Math,
+			seats.filter((seat) => seat !== null).map((seat) => seat?.betSize)
+		);
+	};
+
 	checkTable = () => {
 		if (this.currentTable && this.currentSeat != undefined) {
 			// TODO checks
 			var seats = this.currentTable.table.seats();
 			var { betSize } = seats[this.currentSeat];
-			var maxBetSize = Math.max.apply(
-				Math,
-				seats.filter((seat) => seat !== null).map((seat) => seat?.betSize)
-			);
+			var maxBetSize = this.maxBetSize();
 			if (betSize == maxBetSize) {
 				this.currentTable.actionTable(this, 'check');
 			}
@@ -137,13 +142,19 @@ class PokerPlayer {
 
 	raiseTable = (data) => {
 		if (this.currentTable && this.currentSeat != undefined && !isNaN(data.raise)) {
-			this.currentTable.actionTable(this, 'raise', data.raise);
+			var raise = data.raise;
+			if (raise > 0) {
+				this.currentTable.actionTable(this, 'raise', raise);
+			}
 		}
 	};
 
 	betTable = (data) => {
 		if (this.currentTable && this.currentSeat != undefined && !isNaN(data.bet)) {
-			this.currentTable.actionTable(this, 'bet', data.bet);
+			var bet = data.bet;
+			if (bet > 0) {
+				this.currentTable.actionTable(this, 'bet', data.bet);
+			}
 		}
 	};
 

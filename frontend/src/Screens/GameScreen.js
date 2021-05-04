@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { pokerPlayers, mainPlayer as mainPlayerSelf } from '../data';
 import { Card, Button, Row, Col, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { socket } from '../socket';
-import { v4 as uuidv4 } from 'uuid';
 
 const backgroundStyle = {
 	background: 'url("../img/table.jpg")',
@@ -40,6 +39,7 @@ const GameScreen = ({ history, match }) => {
 	const [modal, setModal] = useState(false);
 	const [tableCards, setTableCards] = useState([]);
 	const [activePlayer, setActivePlayer] = useState(null);
+	const [forcedBets, setForcedBets] = useState([]);
 	// const data = socket.on('tableData');
 
 	useEffect(() => {
@@ -49,10 +49,10 @@ const GameScreen = ({ history, match }) => {
 			} else {
 				console.log(data);
 				setCurrentPlayer(data.currentSeat);
+				setForcedBets(data.forced);
 			}
 		});
 
-		console.log('Current player is ' + currentPlayer);
 		socket.on('tableData', (data) => {
 			console.log(data);
 			const numOfSeats = data.seats.filter((el) => el !== null);
@@ -66,7 +66,7 @@ const GameScreen = ({ history, match }) => {
 			if (data.cards) {
 				const mappedPlayers = [];
 
-				for (var i = 0; i < numOfSeats.length; i++) {
+				for (let i = 0; i < numOfSeats.length; i++) {
 					mappedPlayers.push({ ...data?.seats[i], ...data?.cards[i] });
 				}
 				console.log(mappedPlayers);
@@ -86,35 +86,84 @@ const GameScreen = ({ history, match }) => {
 		socket.emit('foldTable');
 	};
 	const handleCheck = () => {
-		socket.emit('checkTable');
+		if (canCheck()) {
+			socket.emit('checkTable');
+		}
 	};
 	const handleCall = () => {
 		socket.emit('callTable');
 	};
 
-	const handleBet = () => {
-		if (amount > 0) {
-			socket.emit('betTable', { bet: parseInt(amount) });
-			setAmount(0);
-		}
-	};
 	const handleRaise = () => {
-		if (amount > 0) {
+		if (canRaise(amount)) {
 			socket.emit('raiseTable', { raise: parseInt(amount) });
 			setAmount(0);
 		}
 	};
 
-	const disableCheck = () => {
-		if (players[currentPlayer] === undefined) {
-			return true;
+	const handleBet = () => {
+		if (canBet(amount)) {
+			socket.emit('betTable', { bet: parseInt(amount) });
+			setAmount(0);
 		}
-		var { betSize } = players[currentPlayer];
-		var maxBetSize = Math.max.apply(
+	};
+
+	const getMaxBet = () => {
+		return Math.max.apply(
 			Math,
 			players.filter((seat) => seat !== null).map((seat) => seat?.betSize)
 		);
-		return betSize !== maxBetSize;
+	};
+
+	const getMinRaise = () => {
+		return getMaxBet() + forcedBets.bigBlind;
+	};
+
+	const canCheck = () => {
+		if (players[currentPlayer] === undefined) {
+			return false;
+		}
+		var { betSize } = players[currentPlayer];
+		var maxBetSize = getMaxBet();
+		return betSize === maxBetSize;
+	};
+
+	const canRaise = (amount) => {
+		if (amount < 0 || players[currentPlayer] === undefined) {
+			return false;
+		}
+
+		var maxBetSize = getMaxBet();
+		if (maxBetSize === 0) {
+			return false;
+		}
+
+		var { totalChips } = players[currentPlayer];
+		var minBet = maxBetSize + forcedBets.bigBlind;
+		if (amount < minBet || amount > totalChips) {
+			return false;
+		}
+
+		return amount >= minBet;
+	};
+
+	const canBet = (amount) => {
+		if (amount < 0 || players[currentPlayer] === undefined) {
+			return false;
+		}
+
+		var maxBet = getMaxBet();
+		if (maxBet > 0) {
+			return false;
+		}
+
+		var { totalChips } = players[currentPlayer];
+		var minBet = forcedBets.bigBlind;
+		if (amount < minBet || amount > totalChips) {
+			return false;
+		}
+
+		return totalChips >= minBet;
 	};
 
 	return (
@@ -207,7 +256,7 @@ const GameScreen = ({ history, match }) => {
 					</Button>
 					<Button
 						onClick={handleCheck}
-						disabled={currentPlayer !== activePlayer || disableCheck()}
+						disabled={currentPlayer !== activePlayer || !canCheck()}
 						className="ml-5"
 						variant="primary"
 					>
@@ -221,32 +270,56 @@ const GameScreen = ({ history, match }) => {
 					>
 						Call
 					</Button>
-					<Button
-						onClick={handleRaise}
-						disabled={currentPlayer !== activePlayer}
-						className="ml-5"
-						variant="primary"
-					>
-						Raise
-					</Button>
-					<Button
-						onClick={handleBet}
-						disabled={currentPlayer !== activePlayer}
-						className="ml-5  my-3"
-						variant="primary"
-					>
-						Bet
-					</Button>
-					<InputGroup>
-						<FormControl
-							type="number"
-							placeholder="Amount"
-							aria-label="Username"
-							className="ml-5"
-							onChange={(e) => setAmount(e.target.value)}
-							value={amount}
-						/>
-					</InputGroup>
+					{currentPlayer === activePlayer &&
+						(canRaise(getMinRaise()) ? (
+							<>
+								<Button
+									onClick={handleRaise}
+									disabled={currentPlayer !== activePlayer || !canRaise(amount)}
+									className="ml-5"
+									variant="primary"
+								>
+									{amount < getMinRaise()
+										? `Raise min ${getMinRaise()}`
+										: 'Raise'}
+								</Button>
+								<InputGroup>
+									<FormControl
+										type="number"
+										placeholder="Amount"
+										aria-label="Username"
+										className="ml-5 my-3"
+										onChange={(e) => setAmount(e.target.value)}
+										value={amount}
+									/>
+								</InputGroup>
+							</>
+						) : canBet(forcedBets.bigBlind) ? (
+							<>
+								<Button
+									onClick={handleBet}
+									disabled={currentPlayer !== activePlayer || !canBet(amount)}
+									className="ml-5"
+									variant="primary"
+								>
+									{amount < forcedBets.bigBlind
+										? `Bet min ${forcedBets.bigBlind}`
+										: 'Bet'}
+								</Button>
+								<InputGroup>
+									<FormControl
+										type="number"
+										placeholder="Amount"
+										aria-label="Username"
+										className="ml-5 my-3"
+										onChange={(e) => setAmount(e.target.value)}
+										value={amount}
+									/>
+								</InputGroup>
+							</>
+						) : (
+							<></>
+						))}
 				</Col>
 
 				<Col md={8} className="d-flex align-items-center justify-content-center mt-5">
