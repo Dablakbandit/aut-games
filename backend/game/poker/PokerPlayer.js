@@ -1,6 +1,6 @@
 const PokerTable = require('./PokerTable');
 
-// activeTables stores an array of all active poker tables
+// activeTables store an array of all active poker tables
 global.activeTables = {};
 
 class PokerPlayer {
@@ -23,19 +23,19 @@ class PokerPlayer {
 		// User wants to sit at active table
 		gameSocket.on('sitTable', this.sitTable);
 
-		// User wants to sit at active table
+		// User wants to fold at active table
 		gameSocket.on('foldTable', this.foldTable);
 
-		// User wants to sit at active table
+		// User wants to check at active table
 		gameSocket.on('checkTable', this.checkTable);
 
-		// User wants to sit at active table
+		// User wants to call at active table
 		gameSocket.on('callTable', this.callTable);
 
-		// User wants to sit at active table
+		// User wants to raise at active table
 		gameSocket.on('raiseTable', this.raiseTable);
 
-		// User wants to sit at active table
+		// User wants to bet at active table
 		gameSocket.on('betTable', this.betTable);
 
 		this.setupVideoChat();
@@ -115,20 +115,34 @@ class PokerPlayer {
 		}
 	};
 
-	maxBetSize = () => {
-		var seats = this.currentTable.table.seats();
+	getMaxBet = (seats) => {
 		return Math.max.apply(
 			Math,
-			seats.filter((seat) => seat !== null).map((seat) => seat?.betSize)
+			seats.filter((seat) => seat !== null).map((seat) => seat.betSize)
 		);
 	};
 
+	ensureActiveTable = () => {
+		if (this.currentTable === undefined || this.currentSeat === undefined) {
+			return false;
+		}
+		if (!this.currentTable.table.isHandInProgress()) {
+			return false;
+		}
+		if (!this.currentTable.table.isBettingRoundInProgress()) {
+			return false;
+		}
+		if (this.currentTable.table.playerToAct() != this.currentSeat) {
+			return false;
+		}
+		return true;
+	};
+
 	checkTable = () => {
-		if (this.currentTable && this.currentSeat != undefined) {
-			// TODO checks
+		if (this.ensureActiveTable()) {
 			var seats = this.currentTable.table.seats();
 			var { betSize } = seats[this.currentSeat];
-			var maxBetSize = this.maxBetSize();
+			var maxBetSize = this.getMaxBet(seats);
 			if (betSize == maxBetSize) {
 				this.currentTable.actionTable(this, 'check');
 			}
@@ -136,30 +150,48 @@ class PokerPlayer {
 	};
 
 	callTable = () => {
-		if (this.currentTable && this.currentSeat != undefined) {
-			this.currentTable.actionTable(this, 'call');
+		if (this.ensureActiveTable()) {
+			var seats = this.currentTable.table.seats();
+			var { betSize } = seats[this.currentSeat];
+			var maxBetSize = this.getMaxBet(seats);
+			if (betSize < maxBetSize) {
+				this.currentTable.actionTable(this, 'call');
+			}
 		}
 	};
 
 	raiseTable = (data) => {
-		if (this.currentTable && this.currentSeat != undefined && !isNaN(data.raise)) {
+		if (this.ensureActiveTable() && !isNaN(data.raise)) {
 			var raise = data.raise;
-			if (raise > 0) {
+			var seats = this.currentTable.table.seats();
+			var { totalChips } = seats[this.currentSeat];
+			var maxBetSize = this.getMaxBet(seats);
+			var minBet = maxBetSize + this.currentTable.table.forcedBets().bigBlind;
+			if (raise > minBet && raise <= totalChips) {
 				this.currentTable.actionTable(this, 'raise', raise);
 			}
 		}
 	};
 
 	betTable = (data) => {
-		if (this.currentTable && this.currentSeat != undefined && !isNaN(data.bet)) {
+		if (this.ensureActiveTable() && !isNaN(data.bet)) {
 			var bet = data.bet;
-			if (bet > 0) {
-				this.currentTable.actionTable(this, 'bet', data.bet);
+
+			var seats = this.currentTable.table.seats();
+			var maxBetSize = this.getMaxBet(seats);
+			if (maxBetSize > 0) {
+				return;
+			}
+
+			var { totalChips } = seats[this.currentSeat];
+			if (bet > 0 && bet < totalChips) {
+				this.currentTable.actionTable(this, 'bet', bet);
 			}
 		}
 	};
 
 	createTable = (data) => {
+		this.disconnectFromTable();
 		var tableId = data.tableId;
 
 		if (activeTables[tableId]) {
