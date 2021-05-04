@@ -55,23 +55,25 @@ class PokerPlayer {
 	};
 
 	joinActiveTable = (data) => {
+		var { tableId } = data;
 		// Look up the room ID in the Socket.IO manager object.
-		var tableRoom = this.socketio.sockets.adapter.rooms.get(data.tableId);
+		var tableRoom = this.socketio.sockets.adapter.rooms.get(tableId);
 
 		// Fetch active table
-		var table = activeTables[data.tableId];
+		var table = activeTables[tableId];
 
 		// If the room and table doesnt exist
 		if (tableRoom === undefined || table === undefined) {
 			this.gameSocket.emit('status', 'Unknown poker table');
 			return;
 		}
+
 		// Check table constriants
 		if (tableRoom.size < 2 && table.players.length < 2) {
 			// Attach the socket id to the data object.
 			data.mySocketId = this.id;
 			// Join the room
-			this.gameSocket.join(data.tableId);
+			this.gameSocket.join(tableId);
 
 			// Start betting when two players have sat down
 			if (table.length === 2) {
@@ -82,8 +84,9 @@ class PokerPlayer {
 			this.socketio.sockets.in(data.tableId).emit('playerJoinTable', data);
 
 			// Set the current table
+			table.joinTable(this);
+			table.updatePlayers();
 			this.currentTable = table;
-			this.currentTable.updatePlayers();
 		} else {
 			// Otherwise, send an error message back to the player.
 			this.gameSocket.emit('status', 'Unable to join active table.');
@@ -93,8 +96,9 @@ class PokerPlayer {
 	sitTable = (data) => {
 		if (!isNaN(data.chips) && this.currentTable) {
 			this.currentSeat = this.currentTable.sit(this, data.chips);
+		} else {
+			this.gameSocket.emit('currentSeat', {});
 		}
-		this.gameSocket.emit('currentSeat', { currentSeat: this.currentSeat });
 
 		if (this.currentSeat) {
 			this.socketio.sockets.in(this.currentTable.tableId).emit('playerSitDown', {
@@ -106,31 +110,31 @@ class PokerPlayer {
 
 	foldTable = () => {
 		if (this.currentTable && this.currentSeat) {
-			this.currentTable.fold(this);
+			this.currentTable.actionTable(this, 'fold');
 		}
 	};
 
 	checkTable = () => {
 		if (this.currentTable && this.currentSeat) {
-			this.currentTable.check(this);
+			this.currentTable.actionTable(this, 'check');
 		}
 	};
 
 	callTable = () => {
 		if (this.currentTable && this.currentSeat) {
-			this.currentTable.call(this);
+			this.currentTable.actionTable(this, 'call');
 		}
 	};
 
 	raiseTable = (data) => {
 		if (this.currentTable && this.currentSeat && !isNaN(data.raise)) {
-			this.currentTable.raise(this, data.raise);
+			this.currentTable.actionTable(this, 'raise', data.raise);
 		}
 	};
 
 	betTable = (data) => {
 		if (this.currentTable && this.currentSeat && !isNaN(data.bet)) {
-			this.currentTable.bet(this, data.bet);
+			this.currentTable.actionTable(this, 'bet', data.bet);
 		}
 	};
 
@@ -157,15 +161,18 @@ class PokerPlayer {
 		activeTables[tableId] = newTable;
 
 		// Set the current table
+		newTable.joinTable(this);
+		newTable.updatePlayers();
 		this.currentTable = newTable;
-		this.currentTable.updatePlayers();
 	};
 
 	disconnectFromTable = () => {
+		console.log('Disconnect' + this.currentSeat);
 		if (this.currentTable) {
+			this.gameSocket.leave(this.currentTable.tableId);
 			var { players } = this.currentTable;
 			this.currentTable.leaveTable(this);
-			if (players.length == 0) {
+			if (players.length === 0) {
 				delete activeTables[this.currentTable.tableId];
 			}
 		}
@@ -173,6 +180,7 @@ class PokerPlayer {
 		// Cleanup
 		this.currentTable = undefined;
 		this.currentSeat = undefined;
+		this.gameSocket.emit('currentSeat', {});
 	};
 }
 
