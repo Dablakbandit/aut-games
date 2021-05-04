@@ -61,7 +61,10 @@ class PokerTable {
 				break;
 			}
 		}
-		pokerPlayer.gameSocket.emit('currentSeat', { currentSeat: sit });
+		pokerPlayer.gameSocket.emit('currentSeat', {
+			currentSeat: sit,
+			forced: table.forcedBets(),
+		});
 		this.attemptStart();
 		return sit;
 	};

@@ -25,7 +25,7 @@
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^5.12.3",
 		"nodemon": "^2.0.7",
-		"poker": "0.0.7",
+		"poker": "git+https://github.com/AshleyThew/poker.js.git",
 		"socket.io": "^4.0.1"
 	}
 }
