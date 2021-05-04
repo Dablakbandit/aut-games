@@ -39,9 +39,11 @@ const GameScreen = ({ history, match }) => {
 		// 	alert('game id is ' + gameId);
 		// }
 		setPlayers(pokerPlayers);
-		// socket.on('status', (data) => {
-		// 	socket.emit('createTable', { tableId: gameId });
-		// });
+		socket.on('currentSeat', (data) => {
+			if (data.currentSeat === undefined) {
+				history.push('/profile');
+			}
+		});
 
 		socket.on('tableData', (data) => {
 			console.log(data);
