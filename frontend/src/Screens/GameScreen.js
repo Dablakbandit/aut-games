@@ -43,14 +43,14 @@ const GameScreen = ({ history, match }) => {
 	// const data = socket.on('tableData');
 
 	useEffect(() => {
-		socket.on('currentSeat', (data) => {
-			if (data.currentSeat === undefined) {
-				history.push('/profile');
-			} else {
-				console.log(data);
-				setCurrentPlayer(data.currentSeat);
-			}
-		});
+		// socket.on('currentSeat', (data) => {
+		// 	if (data.currentSeat === undefined) {
+		// 		history.push('/profile');
+		// 	} else {
+		// 		console.log(data);
+		// 		setCurrentPlayer(data.currentSeat);
+		// 	}
+		// });
 
 		console.log('Current player is ' + currentPlayer);
 		socket.on('tableData', (data) => {
@@ -170,8 +170,20 @@ const GameScreen = ({ history, match }) => {
 							<Card.Body>
 								{/* CHANGE INDEX TO NAME */}
 								<Card.Title style={textStyle}>Name: {index}</Card.Title>
-								<Card.Text style={textStyle}>Stack: {player.stackSize}</Card.Text>
-								<Card.Text style={textStyle}>Bet: {player.betSize}</Card.Text>
+								<Card.Text style={textStyle}>
+									Stack:
+									<img
+										className="chipsImage"
+										src="../img/chips.svg"
+										alt="stack"
+									/>
+									{player.stackSize}
+								</Card.Text>
+								<Card.Text style={textStyle}>
+									Bet Size:
+									<img className="chipsImage" src="../img/bet.svg" alt="stack" />
+									{player.betSize}
+								</Card.Text>
 							</Card.Body>
 						</Card>
 					</div>

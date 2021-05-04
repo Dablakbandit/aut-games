@@ -84,6 +84,12 @@ body {
 #clipboard:hover {
 	opacity: 0.5;
 }
+
+.chipsImage {
+	height: 20px;
+	width: 20px;
+	object-fit: contain;
+}
 /* Stolen CSS */
 /* .pulse {
 	margin: auto;
