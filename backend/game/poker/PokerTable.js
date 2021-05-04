@@ -45,6 +45,7 @@ class PokerTable {
 			if (table.areBettingRoundsCompleted()) {
 				console.log('Showdown');
 				table.showdown();
+				setTimeout(this.attemptStart, 15 * 1000);
 			}
 		}
 		this.updatePlayers();
@@ -80,6 +81,7 @@ class PokerTable {
 				}
 			}
 			if (activeSeats == 2) {
+				console.log('Starting hand');
 				table.startHand();
 			}
 		}
@@ -89,7 +91,7 @@ class PokerTable {
 	leaveTable = (pokerPlayer) => {
 		var i = this.players.indexOf(pokerPlayer);
 		this.players.splice(i, 1);
-		if (pokerPlayer.currentSeat) {
+		if (pokerPlayer.currentSeat !== undefined) {
 			//TODO check if current action?
 			this.table.standUp(pokerPlayer.currentSeat);
 			this.socketio.sockets

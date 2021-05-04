@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { pokerPlayers, mainPlayer as mainPlayerSelf } from '../data';
 import { Card, Button, Row, Col, FormControl, InputGroup, Modal } from 'react-bootstrap';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { socket } from '../socket';
+import e from 'cors';
 
 const backgroundStyle = {
 	background: 'url("../img/table.jpg")',
@@ -43,6 +45,11 @@ const GameScreen = ({ history, match }) => {
 	// const data = socket.on('tableData');
 
 	useEffect(() => {
+		socket.emit('sitTable', { chips: mainPlayer.numberOfChips });
+	}, [mainPlayer]);
+
+	useEffect(() => {
+		socket.removeEventListener('currentSeat');
 		socket.on('currentSeat', (data) => {
 			if (data.currentSeat === undefined) {
 				history.push('/profile');
@@ -53,6 +60,7 @@ const GameScreen = ({ history, match }) => {
 			}
 		});
 
+		socket.removeEventListener('tableData');
 		socket.on('tableData', (data) => {
 			console.log(data);
 			const numOfSeats = data.seats.filter((el) => el !== null);
@@ -69,15 +77,28 @@ const GameScreen = ({ history, match }) => {
 				for (let i = 0; i < numOfSeats.length; i++) {
 					mappedPlayers.push({ ...data?.seats[i], ...data?.cards[i] });
 				}
-				console.log(mappedPlayers);
+
 				setPlayers(mappedPlayers);
 				setTableCards(data.community);
 				setActivePlayer(data.active);
+				console.log(mappedPlayers);
+			} else if (data) {
+				var mappedPlayers = [...players];
+				for (let i = 0; i < data.seats.length; i++) {
+					console.log(i, data.seats[i]);
+					if (data.seats[i] !== null) {
+						mappedPlayers[i] = data.seats[i];
+					} else {
+						delete mappedPlayers[i];
+					}
+				}
+				setPlayers(mappedPlayers);
+				setTableCards([]);
+				setActivePlayer(null);
+				console.log(mappedPlayers);
 			}
 		});
-
-		socket.emit('sitTable', { chips: mainPlayer.numberOfChips });
-	}, [mainPlayer, history]);
+	}, [history, players]);
 
 	const handleLeave = () => {
 		socket.emit('leaveTable');
@@ -117,6 +138,15 @@ const GameScreen = ({ history, match }) => {
 
 	const getMinRaise = () => {
 		return getMaxBet() + forcedBets.bigBlind;
+	};
+
+	const canCall = () => {
+		if (players[currentPlayer] === undefined) {
+			return false;
+		}
+		var { betSize } = players[currentPlayer];
+		var maxBetSize = getMaxBet();
+		return betSize !== maxBetSize;
 	};
 
 	const canCheck = () => {
@@ -193,26 +223,30 @@ const GameScreen = ({ history, match }) => {
 				{players.map((player, index) => (
 					<div key={index}>
 						<div className="d-flex justify-content-center">
-							<img
-								className="playingCard"
-								alt="card"
-								// src="../img/cards/BLUE_BACK.svg"
-								src={
-									currentPlayer === index
-										? getCardImgUrl(player.first)
-										: '../img/cards/BLUE_BACK.svg'
-								}
-							/>
-							<img
-								className="playingCard"
-								alt="card"
-								// src="../img/cards/BLUE_BACK.svg"
-								src={
-									currentPlayer === index
-										? getCardImgUrl(player.second)
-										: '../img/cards/BLUE_BACK.svg'
-								}
-							/>
+							{player.first && (
+								<>
+									<img
+										className="playingCard"
+										alt="card"
+										// src="../img/cards/BLUE_BACK.svg"
+										src={
+											currentPlayer === index
+												? getCardImgUrl(player.first)
+												: '../img/cards/BLUE_BACK.svg'
+										}
+									/>
+									<img
+										className="playingCard"
+										alt="card"
+										// src="../img/cards/BLUE_BACK.svg"
+										src={
+											currentPlayer === index
+												? getCardImgUrl(player.second)
+												: '../img/cards/BLUE_BACK.svg'
+										}
+									/>
+								</>
+							)}
 						</div>
 						<Card style={activePlayer === index ? activeCard : { width: '12rem' }}>
 							<Card.Img style={imgStyle} variant="top" src="../img/dices.png" />
@@ -246,80 +280,103 @@ const GameScreen = ({ history, match }) => {
 					<Button onClick={handleLeave} className="ml-5 mt-5 " variant="danger">
 						Leave
 					</Button>
-					<Button
-						onClick={handleFold}
-						disabled={currentPlayer !== activePlayer}
-						className="ml-5  my-3"
-						variant="primary"
-					>
-						Fold
-					</Button>
-					<Button
-						onClick={handleCheck}
-						disabled={currentPlayer !== activePlayer || !canCheck()}
-						className="ml-5"
-						variant="primary"
-					>
-						Check
-					</Button>
-					<Button
-						onClick={handleCall}
-						disabled={currentPlayer !== activePlayer}
-						className="ml-5 my-3"
-						variant="primary"
-					>
-						Call
-					</Button>
-					{currentPlayer === activePlayer &&
-						(canRaise(getMinRaise()) ? (
-							<>
-								<Button
-									onClick={handleRaise}
-									disabled={currentPlayer !== activePlayer || !canRaise(amount)}
-									className="ml-5"
-									variant="primary"
-								>
-									{amount < getMinRaise()
-										? `Raise min ${getMinRaise()}`
-										: 'Raise'}
-								</Button>
-								<InputGroup>
-									<FormControl
-										type="number"
-										placeholder="Amount"
-										aria-label="Username"
-										className="ml-5 my-3"
-										onChange={(e) => setAmount(e.target.value)}
-										value={amount}
-									/>
-								</InputGroup>
-							</>
-						) : canBet(forcedBets.bigBlind) ? (
-							<>
-								<Button
-									onClick={handleBet}
-									disabled={currentPlayer !== activePlayer || !canBet(amount)}
-									className="ml-5"
-									variant="primary"
-								>
-									{amount < forcedBets.bigBlind
-										? `Bet min ${forcedBets.bigBlind}`
-										: 'Bet'}
-								</Button>
-								<InputGroup>
-									<FormControl
-										type="number"
-										placeholder="Amount"
-										aria-label="Username"
-										className="ml-5 my-3"
-										onChange={(e) => setAmount(e.target.value)}
-										value={amount}
-									/>
-								</InputGroup>
-							</>
-						) : (
-							<></>
-						))}
+					{activePlayer !== null ? (
+						<>
+							<Button
+								onClick={handleFold}
+								disabled={currentPlayer !== activePlayer}
+								className="ml-5  my-3"
+								variant="primary"
+							>
+								Fold
+							</Button>
+							<Button
+								onClick={handleCheck}
+								disabled={currentPlayer !== activePlayer || !canCheck()}
+								className="ml-5"
+								variant="primary"
+							>
+								Check
+							</Button>
+							<Button
+								onClick={handleCall}
+								disabled={currentPlayer !== activePlayer || !canCall()}
+								className="ml-5 my-3"
+								variant="primary"
+							>
+								Call
+							</Button>
+							{currentPlayer === activePlayer &&
+								(canRaise(getMinRaise()) ? (
+									<>
+										<Button
+											onClick={handleRaise}
+											disabled={
+												currentPlayer !== activePlayer || !canRaise(amount)
+											}
+											className="ml-5"
+											variant="primary"
+										>
+											{amount < getMinRaise()
+												? `Raise min ${getMinRaise()}`
+												: 'Raise'}
+										</Button>
+										<InputGroup>
+											<FormControl
+												type="number"
+												placeholder="Amount"
+												aria-label="Username"
+												className="ml-5 my-3"
+												onChange={(e) => setAmount(e.target.value)}
+												value={amount}
+											/>
+										</InputGroup>
+									</>
+								) : (
+									canBet(forcedBets.bigBlind) && (
+										<>
+											<Button
+												onClick={handleBet}
+												disabled={
+													currentPlayer !== activePlayer ||
+													!canBet(amount)
+												}
+												className="ml-5"
+												variant="primary"
+											>
+												{amount < forcedBets.bigBlind
+													? `Bet min ${forcedBets.bigBlind}`
+													: 'Bet'}
+											</Button>
+											<InputGroup>
+												<FormControl
+													type="number"
+													placeholder="Amount"
+													aria-label="Username"
+													className="ml-5 my-3"
+													onChange={(e) => setAmount(e.target.value)}
+													value={amount}
+												/>
+											</InputGroup>
+										</>
+									)
+								))}
+						</>
+					) : (
+						!modal && (
+							<CountdownCircleTimer
+								isPlaying
+								duration={15}
+								colors={[
+									['#004777', 0.33],
+									['#F7B801', 0.33],
+									['#A30000', 0.33],
+								]}
+							>
+								{({ remainingTime }) => remainingTime}
+							</CountdownCircleTimer>
+						)
+					)}
 				</Col>
 
 				<Col md={8} className="d-flex align-items-center justify-content-center mt-5">

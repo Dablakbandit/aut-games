@@ -55,6 +55,7 @@ class PokerPlayer {
 	};
 
 	joinActiveTable = (data) => {
+		this.disconnectFromTable();
 		var { tableId } = data;
 		// Look up the room ID in the Socket.IO manager object.
 		var tableRoom = this.socketio.sockets.adapter.rooms.get(tableId);
@@ -187,7 +188,6 @@ class PokerPlayer {
 	};
 
 	disconnectFromTable = () => {
-		console.log('Disconnect' + this.currentSeat);
 		if (this.currentTable) {
 			this.gameSocket.leave(this.currentTable.tableId);
 			var { players } = this.currentTable;
@@ -195,12 +195,12 @@ class PokerPlayer {
 			if (players.length === 0) {
 				delete activeTables[this.currentTable.tableId];
 			}
+			this.gameSocket.emit('currentSeat', {});
 		}
 
 		// Cleanup
 		this.currentTable = undefined;
 		this.currentSeat = undefined;
-		this.gameSocket.emit('currentSeat', {});
 	};
 }
 
