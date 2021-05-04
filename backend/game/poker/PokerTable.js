@@ -21,7 +21,6 @@ class PokerTable {
 	updatePlayers = () => {
 		var { table, socketio } = this;
 		var tableData = {
-			button: table.button(),
 			seats: table.seats(),
 			cards: table.holdCards(),
 			round: table.roundOfBetting(),
@@ -29,6 +28,7 @@ class PokerTable {
 		};
 		if (table.isBettingRoundInProgress()) {
 			tableData['active'] = table.playerToAct();
+			tableData['active'] = table.button();
 		}
 		socketio.sockets.in(tableId).emit('tableData', JSON.stringify(tableData));
 	};
