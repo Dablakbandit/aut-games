@@ -95,7 +95,7 @@ class PokerPlayer {
 		}
 		this.gameSocket.emit('currentSeat', { currentSeat: this.currentSeat });
 
-		if (this.currentSeat != -1) {
+		if (this.currentSeat) {
 			this.socketio.sockets.in(this.currentTable.tableId).emit('playerSitDown', {
 				seatId: this.currentSeat,
 				chips: data.chips,
