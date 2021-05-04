@@ -26,6 +26,28 @@ exports.authUser = asyncHandler(async (req, res) => {
 	}
 });
 
+//@desc get get all user's chips
+//@route get /api/users/chips
+//@access Public
+exports.getAllChips = asyncHandler(async (req, res) => {
+	const chips = await User.find({}).select('chips name');
+
+	const chipsArr = chips.map((el) => {
+		return { chips: el.chips, name: el.name };
+	});
+
+	console.log(chipsArr);
+
+	if (chipsArr.length > 0) {
+		res.json({
+			chips: chipsArr,
+		});
+	} else {
+		res.status(404);
+		throw new Error('No players');
+	}
+});
+
 //@desc registering a new user
 //@route Post /api/users/login
 //@access Public
@@ -70,24 +92,6 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			chips: user.chips,
-		});
-	} else {
-		res.status(404);
-		throw new Error('User not found');
-	}
-});
-
-//@desc get user profile
-//@route Post /api/users/profile
-//@access Private
-exports.getAllUsersChips = asyncHandler(async (req, res) => {
-	const user = await User.findById(req.params.id);
-
-	if (user) {
-		res.json({
-			_id: user._id,
-			name: user.name,
-			email: user.email,
 		});
 	} else {
 		res.status(404);
