@@ -59,7 +59,7 @@ const GameScreen = ({ history, match }) => {
 	useEffect(() => {
 		socket.emit('joinTable', { tableId: gameId });
 		socket.emit('sitTable', { token: user.token });
-	}, [gameId, mainPlayer]);
+	}, [gameId, user.token]);
 
 	useEffect(() => {
 		socket.removeEventListener('currentSeat');
@@ -234,7 +234,7 @@ const GameScreen = ({ history, match }) => {
 						</div>
 						with your friends to play.
 					</div>
-					<FacebookShareButton url={useLocation().pathname} quote={'Play poker now!'}>
+					<FacebookShareButton url={window.location.href} quote={'Play poker now!'}>
 						<FacebookIcon size={32} round />
 					</FacebookShareButton>
 				</Modal.Body>
