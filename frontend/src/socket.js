@@ -12,7 +12,7 @@ socket.on('createTable', (statusUpdate) => {
 		'A new game has been created! Username: ' +
 			statusUpdate.userName +
 			', Game id: ' +
-			statusUpdate.gameId +
+			statusUpdate.tableId +
 			' Socket id: ' +
 			statusUpdate.mySocketId
 	);

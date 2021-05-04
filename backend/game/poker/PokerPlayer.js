@@ -1,4 +1,4 @@
-const pokerTable = require('./PokerTable');
+const PokerTable = require('./PokerTable');
 
 // activeTables stores an array of all active poker tables
 global.activeTables = {};
@@ -49,7 +49,7 @@ class PokerPlayer {
 
 		// If the room and table doesnt exist
 		if (tableRoom === undefined || table == undefined) {
-			this.emit('status', 'Unknown poker table');
+			this.gameSocket.emit('status', 'Unknown poker table');
 			return;
 		}
 
@@ -59,7 +59,7 @@ class PokerPlayer {
 			data.mySocketId = this.id;
 
 			// Join the room
-			this.join(data.tableId);
+			this.gameSocket.join(data.tableId);
 
 			// Start betting when two players have sat down
 			if (table.length === 2) {
@@ -73,16 +73,16 @@ class PokerPlayer {
 			this.currentTable = table;
 		} else {
 			// Otherwise, send an error message back to the player.
-			this.emit('status', 'Unable to join active table.');
+			this.gameSocket.emit('status', 'Unable to join active table.');
 		}
 	};
 
 	sitTable = (data) => {
 		if (!isNaN(data.chips) && this.currentTable) {
 			this.currentSeat = this.currentTable.sit(this, data.chips);
-			this.emit('currentSeat', { currentSeat: currentSeat });
+			this.gameSocket.emit('currentSeat', { currentSeat: currentSeat });
 			if (currentSeat != -1) {
-				this.socketio.sockets.in(currentTable.tableId).emit('playerSitDown', {
+				this.socketio.sockets.in(this.currentTable.tableId).emit('playerSitDown', {
 					seatId: currentSeat,
 					chips: data.chips,
 				});
@@ -94,18 +94,18 @@ class PokerPlayer {
 		var tableId = data.tableId;
 
 		if (activeTables[tableId]) {
-			this.emit('status', 'Poker table already exists');
+			this.gameSocket.emit('status', 'Poker table already exists');
 			return;
 		}
 
 		// Return the Table ID and the socket ID to the sender
-		this.emit('createTable', { tableId: tableId, mySocketId: this.id });
+		this.gameSocket.emit('createTable', { tableId: tableId, mySocketId: this.gameSocket.id });
 
 		// Join the socket room
-		this.join(tableId);
+		this.gameSocket.join(tableId);
 
 		// Create table object
-		var newTable = pokerTable.createTable(socketio, tableId);
+		var newTable = new PokerTable(this.socketio, tableId);
 		// Update active tables
 		activeTables[tableId] = newTable;
 
