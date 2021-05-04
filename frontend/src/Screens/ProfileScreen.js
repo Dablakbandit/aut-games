@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Col, Row, Image, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
-import { UserContext } from '../UserContext';
+import { v4 as uuidv4 } from 'uuid';
+import { socket } from '../socket';
 
 const imgStyle = {
 	width: '200px',
@@ -15,6 +15,12 @@ const backgroundStyle = {
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
 	height: '100vh',
+};
+
+const handleCreate = () => {
+	const id = uuidv4();
+	socket.emit('createTable', { tableId: id });
+	// console.log(id);
 };
 
 const Profile = ({ history, match }) => {
@@ -45,7 +51,9 @@ const Profile = ({ history, match }) => {
 									onChange={(e) => setGameId(e.target.value)}
 								></Form.Control>
 							</Form.Group>
-							<Button className="mx-3 heroBtn">Create a game</Button>
+							<Button className="mx-3 heroBtn" onClick={() => handleCreate()}>
+								Create a game
+							</Button>
 
 							<Button className="mx-3 heroBtn" type="submit" variant="primary">
 								Join a game
