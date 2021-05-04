@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { pokerPlayers, mainPlayer } from '../data';
 import { Card, Button, Row, Col, FormControl, InputGroup } from 'react-bootstrap';
+import { socket } from '../socket';
 
 const backgroundStyle = {
 	background: 'url("../img/table.jpg")',
@@ -31,21 +32,32 @@ const GameScreen = ({ history, match }) => {
 	const [amount, setAmount] = useState(0);
 	const [table, setTable] = useState({});
 
+	// const data = socket.on('tableData');
+
 	useEffect(() => {
 		// if (gameId) {
 		// 	alert('game id is ' + gameId);
 		// }
 
+		const d = socket.on('tableData', (data) => {
+			console.log(data);
+		});
+
+		console.log(d);
+
 		setPlayers(pokerPlayers);
 		setSelf(mainPlayer);
-	}, [gameId]);
+	}, []);
+
+	const handleLeave = () => {
+		// socket.emit('createTable', { tableId: id });
+	};
+	const handleFold = () => {};
+	const handleCheck = () => {};
+	const handleCall = () => {};
 
 	const handleBet = () => {};
 	const handleRaise = () => {};
-	const handleBet = () => {};
-	const handleBet = () => {};
-	const handleBet = () => {};
-	const handleBet = () => {};
 
 	return (
 		<div style={backgroundStyle}>

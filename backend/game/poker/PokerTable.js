@@ -1,5 +1,4 @@
 const poker = require('poker');
-const { table } = require('../../../frontend/src/data');
 const maxSeats = 2;
 
 //table.holeCards();
