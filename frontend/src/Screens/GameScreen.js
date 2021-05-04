@@ -178,8 +178,7 @@ const GameScreen = ({ history, match }) => {
 										alt="stack"
 									/>
 									{player.stackSize}
-								</Card.Text>
-								<Card.Text style={textStyle}>
+									<br />
 									Bet Size:
 									<img className="chipsImage" src="../img/bet.svg" alt="stack" />
 									{player.betSize}
