@@ -372,17 +372,19 @@ const GameScreen = ({ history, match }) => {
 						</>
 					) : (
 						!modal && (
-							<CountdownCircleTimer
-								isPlaying
-								duration={15}
-								colors={[
-									['#004777', 0.33],
-									['#F7B801', 0.33],
-									['#A30000', 0.33],
-								]}
-							>
-								{({ remainingTime }) => remainingTime}
-							</CountdownCircleTimer>
+							<div className="ml-5 mt-5">
+								<CountdownCircleTimer
+									isPlaying
+									duration={15}
+									colors={[
+										['#004777', 0.33],
+										['#F7B801', 0.33],
+										['#A30000', 0.33],
+									]}
+								>
+									{({ remainingTime }) => remainingTime}
+								</CountdownCircleTimer>
+							</div>
 						)
 					)}
 				</Col>
