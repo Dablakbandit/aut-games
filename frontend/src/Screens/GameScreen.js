@@ -53,6 +53,12 @@ const GameScreen = ({ history, match }) => {
 			} else {
 				console.log(data);
 				setCurrentPlayer(data.currentSeat);
+
+				if (numOfSeats.length <= 1) {
+					setModal(true);
+				} else {
+					setModal(false);
+				}
 			}
 		});
 
@@ -80,21 +86,34 @@ const GameScreen = ({ history, match }) => {
 			}
 		});
 
-		if (mainPlayer) {
-			console.log('call something');
-			socket.emit('sitTable', { chips: mainPlayer.numberOfChips });
-		}
+		socket.emit('sitTable', { chips: mainPlayer.numberOfChips });
 	}, [mainPlayer, history]);
 
 	const handleLeave = () => {
-		socket.disconnect();
+		socket.emit('leaveTable');
 	};
-	const handleFold = () => {};
-	const handleCheck = () => {};
-	const handleCall = () => {};
+	const handleFold = () => {
+		socket.emit('foldTable');
+	};
+	const handleCheck = () => {
+		socket.emit('checkTable');
+	};
+	const handleCall = () => {
+		socket.emit('callTable');
+	};
 
-	const handleBet = () => {};
-	const handleRaise = () => {};
+	const handleBet = () => {
+		if (amount > 0) {
+			socket.emit('betTable', { bet: amount });
+			setAmount(0);
+		}
+	};
+	const handleRaise = () => {
+		if (amount > 0) {
+			socket.emit('raiseTable', { raise: amount });
+			setAmount(0);
+		}
+	};
 
 	return (
 		<div style={backgroundStyle}>
@@ -154,19 +173,19 @@ const GameScreen = ({ history, match }) => {
 					<Button onClick={handleLeave} className="ml-5 mt-5 " variant="danger">
 						Leave
 					</Button>
-					<Button className="ml-5  my-3" variant="primary">
+					<Button onClick={handleFold} className="ml-5  my-3" variant="primary">
 						Fold
 					</Button>
-					<Button className="ml-5" variant="primary">
+					<Button onClick={handleCheck} className="ml-5" variant="primary">
 						Check
 					</Button>
-					<Button className="ml-5 my-3" variant="primary">
+					<Button onClick={handleCall} className="ml-5 my-3" variant="primary">
 						Call
 					</Button>
-					<Button className="ml-5" variant="primary">
+					<Button onClick={handleRaise} className="ml-5" variant="primary">
 						Raise
 					</Button>
-					<Button className="ml-5  my-3" variant="primary">
+					<Button onClick={handleBet} className="ml-5  my-3" variant="primary">
 						Bet
 					</Button>
 					<InputGroup>

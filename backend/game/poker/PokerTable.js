@@ -59,21 +59,24 @@ class PokerTable {
 				break;
 			}
 		}
+		pokerPlayer.gameSocket.emit('currentSeat', { currentSeat: sit });
 		this.attemptStart();
 		return sit;
 	};
 
 	attemptStart = () => {
 		var { table } = this;
-		var seats = this.table.seats();
-		var activeSeats = 0;
-		for (var seat = 0; seat < maxSeats; seat++) {
-			if (seats[seat] !== null) {
-				activeSeats++;
+		if (!table.isHandInProgress()) {
+			var seats = this.table.seats();
+			var activeSeats = 0;
+			for (var seat = 0; seat < maxSeats; seat++) {
+				if (seats[seat] !== null) {
+					activeSeats++;
+				}
 			}
-		}
-		if (activeSeats == 2) {
-			table.startHand();
+			if (activeSeats == 2) {
+				table.startHand();
+			}
 		}
 		this.checkAndUpdate();
 	};
@@ -92,33 +95,18 @@ class PokerTable {
 		//TODO refund tokens
 	};
 
-	fold = (pokerPlayer) => {
+	actionTable = (pokerPlayer, action, betSize) => {
+		var { table } = this;
+		console.log(pokerPlayer.currentSeat);
+		console.log(table.playerToAct());
 		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
-			table.actionTaken('fold');
-		}
-	};
-
-	check = (pokerPlayer) => {
-		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
-			table.actionTaken('fold');
-		}
-	};
-
-	call = (pokerPlayer) => {
-		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
-			table.actionTaken('call');
-		}
-	};
-
-	raise = (pokerPlayer, rait) => {
-		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
-			table.actionTaken('raise', raise);
-		}
-	};
-
-	bet = (pokerPlayer, bet) => {
-		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
-			table.actionTaken('fold', bet);
+			console.log(action);
+			if (betSize) {
+				table.actionTaken(action, betSize);
+			} else {
+				table.actionTaken(action);
+			}
+			this.checkAndUpdate();
 		}
 	};
 }
