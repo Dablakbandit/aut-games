@@ -24,7 +24,7 @@ class PokerTable {
 	/**
 	 * 	Join the current poker table
 	 *
-	 * 	@param {PokerPlayer} pokerPlayer The player wishing to join
+	 * 	@param {PokerPlayer} pokerPlayer - The player wishing to join
 	 * 	@returns {boolean} if successfully joined table
 	 */
 	joinTable = (pokerPlayer) => {
@@ -109,9 +109,14 @@ class PokerTable {
 	 * 	@returns {number} seat number or -1 if none available
 	 */
 	getFreeSeat = () => {
+		var { table } = this;
+		// Get seat information
 		var seats = table.seats();
+		// For each seat
 		for (var seat = 0; seat < maxSeats; seat++) {
+			// If seat is empty
 			if (seats[seat] === null) {
+				// Return seat
 				return seat;
 			}
 		}
@@ -120,8 +125,8 @@ class PokerTable {
 
 	/**
 	 * Sit a player down at the table with buy in chip amount
-	 * 	@param {PokerPlayer} pokerPlayer The player wishing to join
-	 * 	@param {number} chips The amount of chips to buy in
+	 * 	@param {PokerPlayer} pokerPlayer - The player wishing to join
+	 * 	@param {number} chips - The amount of chips to buy in
 	 * 	@returns {number} seat number or -1 if none available
 	 */
 	sit = (pokerPlayer, chips) => {
@@ -138,7 +143,7 @@ class PokerTable {
 
 		// Emit current seat back to the player
 		pokerPlayer.gameSocket.emit('currentSeat', {
-			currentSeat: sit,
+			currentSeat: seat,
 			forced: table.forcedBets(),
 		});
 
@@ -174,7 +179,7 @@ class PokerTable {
 
 	/**
 	 * Attempt to leave the table
-	 * 	@param {PokerPlayer} pokerPlayer The player wishing to leave
+	 * 	@param {PokerPlayer} pokerPlayer - The player wishing to leave this table
 	 */
 	leaveTable = (pokerPlayer) => {
 		// Get index of player
@@ -207,8 +212,8 @@ class PokerTable {
 
 	/**
 	 * Perform an action with the current player
-	 * @param {string} action action to perform
-	 * @param {betSize} [betSize] chips of the aggressive action
+	 * @param {string} action - Action to perform
+	 * @param {betSize} [betSize] - Chip amount if an aggressive action
 	 */
 	actionTable = (action, betSize) => {
 		var { table } = this;

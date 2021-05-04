@@ -80,7 +80,7 @@ class PokerPlayer {
 		}
 
 		// If able to join the table
-		if (table.join(this)) {
+		if (table.joinTable(this)) {
 			// Attach the socket id to the data object.
 			data.mySocketId = this.id;
 			// Join the room
@@ -232,7 +232,7 @@ class PokerPlayer {
 	 */
 	foldTable = () => {
 		if (this.ensureActiveTable()) {
-			this.currentTable.actionTable(this, 'fold');
+			this.currentTable.actionTable('fold');
 		}
 	};
 
@@ -246,7 +246,7 @@ class PokerPlayer {
 			var { betSize } = seats[this.currentSeat];
 			var maxBetSize = this.getMaxBet(seats);
 			if (betSize == maxBetSize) {
-				this.currentTable.actionTable(this, 'check');
+				this.currentTable.actionTable('check');
 			}
 		}
 	};
@@ -261,7 +261,7 @@ class PokerPlayer {
 			var { betSize } = seats[this.currentSeat];
 			var maxBetSize = this.getMaxBet(seats);
 			if (betSize < maxBetSize) {
-				this.currentTable.actionTable(this, 'call');
+				this.currentTable.actionTable('call');
 			}
 		}
 	};
@@ -279,7 +279,7 @@ class PokerPlayer {
 			var maxBetSize = this.getMaxBet(seats);
 			var minBet = maxBetSize + this.currentTable.table.forcedBets().bigBlind;
 			if (raise > minBet && raise <= totalChips) {
-				this.currentTable.actionTable(this, 'raise', raise);
+				this.currentTable.actionTable('raise', raise);
 			}
 		}
 	};
@@ -301,7 +301,7 @@ class PokerPlayer {
 
 			var { totalChips } = seats[this.currentSeat];
 			if (bet > 0 && bet < totalChips) {
-				this.currentTable.actionTable(this, 'bet', bet);
+				this.currentTable.actionTable('bet', bet);
 			}
 		}
 	};
