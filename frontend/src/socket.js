@@ -1,6 +1,10 @@
 import io from 'socket.io-client';
 
-const URL = process.env.BACKEND_URL || 'http://localhost:5000';
+let URL = 'http://localhost:5000';
+
+if (process.env.NODE_ENV === 'production') {
+	URL = 'https://aut-games.herokuapp.com/';
+}
 
 const socket = io(URL);
 
