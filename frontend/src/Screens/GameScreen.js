@@ -53,12 +53,6 @@ const GameScreen = ({ history, match }) => {
 			} else {
 				console.log(data);
 				setCurrentPlayer(data.currentSeat);
-
-				if (numOfSeats.length <= 1) {
-					setModal(true);
-				} else {
-					setModal(false);
-				}
 			}
 		});
 
