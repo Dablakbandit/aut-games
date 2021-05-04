@@ -158,6 +158,8 @@ class PokerPlayer {
 				this.disconnectFromTable();
 				return;
 			}
+			chips = Math.min(chips, 2000);
+
 			this.user.chips -= chips;
 
 			await this.user.save();
