@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { pokerPlayers, mainPlayer } from '../data';
+import { pokerPlayers, mainPlayer as mainPlayerSelf } from '../data';
 import { Card, Button, Row, Col, FormControl, InputGroup } from 'react-bootstrap';
 import { socket } from '../socket';
 
@@ -28,9 +28,9 @@ const textStyle = {
 const GameScreen = ({ history, match }) => {
 	const gameId = match.params.gameId;
 	const [players, setPlayers] = useState([]);
-	const [self, setSelf] = useState({});
 	const [amount, setAmount] = useState(0);
 	const [table, setTable] = useState({});
+	const [mainPlayer, setMainPlayer] = useState(mainPlayerSelf);
 
 	// const data = socket.on('tableData');
 
@@ -44,13 +44,12 @@ const GameScreen = ({ history, match }) => {
 		});
 
 		setPlayers(pokerPlayers);
-		setSelf(mainPlayer);
 
-		console.log(self.numberOfChips);
-		console.log(self);
-
-		if (self) socket.emit('sitTable', { chips: self.numberOfChips });
-	}, [self]);
+		if (mainPlayer) {
+			console.log('call something');
+			socket.emit('sitTable', { chips: mainPlayer.numberOfChips });
+		}
+	}, [mainPlayer]);
 
 	const handleLeave = () => {
 		// socket.emit('createTable', { tableId: id });
@@ -86,7 +85,6 @@ const GameScreen = ({ history, match }) => {
 								<Card.Text style={textStyle}>
 									Number of chips: {player.numberOfChips}
 								</Card.Text>
-								{console.log(player.name + self.name)}
 							</Card.Body>
 						</Card>
 					</div>
