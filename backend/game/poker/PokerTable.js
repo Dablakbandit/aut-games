@@ -1,4 +1,5 @@
 const poker = require('poker');
+const { table } = require('../../../frontend/src/data');
 const maxSeats = 2;
 
 //table.holeCards();
@@ -18,17 +19,6 @@ class PokerTable {
 		this.players.push(pokerPlayer);
 	};
 
-	leaveTable = (pokerPlayer) => {
-		var i = this.players.indexOf(pokerPlayer);
-		this.players.splice(i, 1);
-		if (pokerPlayer.currentSeat != -1) {
-			//TODO check if current action?
-			this.table.standUp(pokerPlayer.currentSeat);
-			this.socketio.sockets.in(tableId).emit('playerLeaveTable', pokerPlayer.currentSeat);
-		}
-		//TODO refund tokens
-	};
-
 	updatePlayers = () => {
 		var { table, socketio } = this;
 		if (table.isBettingRoundInProgress()) {
@@ -44,18 +34,15 @@ class PokerTable {
 		socketio.sockets.in(tableId).emit('tableData', JSON.stringify(tableData));
 	};
 
-	checkRoundEnd = () => {
-		var { table, socketio } = this;
+	checkAndUpdate = () => {
+		var { table } = this;
 		if (!table.areBettingRoundsCompleted() && !table.isBettingRoundInProgress()) {
 			table.endBettingRound();
 		}
-	};
-
-	checkGameEnd = () => {
-		var { table, socketio } = this;
 		if (table.areBettingRoundsCompleted()) {
 			table.showdown();
 		}
+		this.updatePlayers();
 	};
 
 	sit = (pokerPlayer, chips) => {
@@ -68,6 +55,7 @@ class PokerTable {
 				table.sitDown(seat, chips);
 			}
 		}
+		this.attemptStart();
 		return sit;
 	};
 
@@ -83,7 +71,48 @@ class PokerTable {
 		}
 		if (activeSeats == 2) {
 			table.startHand();
-			updatePlayers();
+			this.checkAndUpdate();
+		}
+	};
+
+	leaveTable = (pokerPlayer) => {
+		var i = this.players.indexOf(pokerPlayer);
+		this.players.splice(i, 1);
+		if (pokerPlayer.currentSeat != -1) {
+			//TODO check if current action?
+			this.table.standUp(pokerPlayer.currentSeat);
+			this.socketio.sockets.in(tableId).emit('playerLeaveTable', pokerPlayer.currentSeat);
+		}
+		//TODO refund tokens
+	};
+
+	fold = (pokerPlayer) => {
+		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
+			table.actionTaken('fold');
+		}
+	};
+
+	check = (pokerPlayer) => {
+		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
+			table.actionTaken('fold');
+		}
+	};
+
+	call = (pokerPlayer) => {
+		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
+			table.actionTaken('call');
+		}
+	};
+
+	raise = (pokerPlayer, rait) => {
+		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
+			table.actionTaken('raise', raise);
+		}
+	};
+
+	bet = (pokerPlayer, bet) => {
+		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
+			table.actionTaken('fold', bet);
 		}
 	};
 }

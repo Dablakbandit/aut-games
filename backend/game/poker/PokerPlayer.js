@@ -7,8 +7,8 @@ class PokerPlayer {
 	constructor(socketio, gameSocket) {
 		this.socketio = socketio;
 		this.gameSocket = gameSocket;
-		this.currentTable = null;
-		this.currentSeat = -1;
+		this.currentTable = undefined;
+		this.currentSeat = undefined;
 
 		// Run code when the client disconnects from their socket session.
 		gameSocket.on('disconnect', this.disconnectFromTable);
@@ -21,6 +21,21 @@ class PokerPlayer {
 
 		// User wants to sit at active table
 		gameSocket.on('sitTable', this.sitTable);
+
+		// User wants to sit at active table
+		gameSocket.on('foldTable', this.foldTable);
+
+		// User wants to sit at active table
+		gameSocket.on('checkTable', this.checkTable);
+
+		// User wants to sit at active table
+		gameSocket.on('callTable', this.callTable);
+
+		// User wants to sit at active table
+		gameSocket.on('raiseTable', this.raiseTable);
+
+		// User wants to sit at active table
+		gameSocket.on('betTable', this.betTable);
 
 		this.setupVideoChat();
 	}
@@ -69,6 +84,7 @@ class PokerPlayer {
 
 			// Set the current table
 			this.currentTable = table;
+			this.currentTable.updatePlayers();
 		} else {
 			// Otherwise, send an error message back to the player.
 			this.gameSocket.emit('status', 'Unable to join active table.');
@@ -85,6 +101,36 @@ class PokerPlayer {
 					chips: data.chips,
 				});
 			}
+		}
+	};
+
+	foldTable = () => {
+		if (this.currentTable && this.currentSeat) {
+			this.currentTable.fold(this);
+		}
+	};
+
+	checkTable = () => {
+		if (this.currentTable && this.currentSeat) {
+			this.currentTable.check(this);
+		}
+	};
+
+	callTable = () => {
+		if (this.currentTable && this.currentSeat) {
+			this.currentTable.call(this);
+		}
+	};
+
+	raiseTable = (data) => {
+		if (this.currentTable && this.currentSeat && !isNaN(data.raise)) {
+			this.currentTable.raise(this, data.raise);
+		}
+	};
+
+	betTable = (data) => {
+		if (this.currentTable && this.currentSeat && !isNaN(data.bet)) {
+			this.currentTable.bet(this, data.bet);
 		}
 	};
 
@@ -124,8 +170,8 @@ class PokerPlayer {
 		}
 
 		// Cleanup
-		this.currentTable = null;
-		this.currentSeat = -1;
+		this.currentTable = undefined;
+		this.currentSeat = undefined;
 	};
 }
 
