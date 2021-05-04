@@ -18,7 +18,7 @@ const socketServer = socketio(httpServer, {
 });
 
 dotenv.config();
-//connectDB();
+connectDB();
 // cors
 app.use(cors({ origin: true, credentials: true }));
 

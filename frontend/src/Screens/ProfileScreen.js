@@ -24,9 +24,9 @@ const Profile = ({ history, match }) => {
 	const { user } = useContext(UserContext);
 
 	useEffect(() => {
-		// if (!user) {
-		// 	history.push('/');
-		// }
+		if (!user) {
+			history.push('/');
+		}
 	}, [user, history]);
 
 	const submitHandler = (e) => {

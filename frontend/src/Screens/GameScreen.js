@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { pokerPlayers, mainPlayer as mainPlayerSelf } from '../data';
 import { Card, Button, Row, Col, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { socket } from '../socket';
-import e from 'cors';
+import { UserContext } from '../UserContext';
 
 const backgroundStyle = {
 	background: 'url("../img/table.jpg")',
@@ -42,6 +42,14 @@ const GameScreen = ({ history, match }) => {
 	const [tableCards, setTableCards] = useState([]);
 	const [activePlayer, setActivePlayer] = useState(null);
 	const [forcedBets, setForcedBets] = useState([]);
+
+	const { user } = useContext(UserContext);
+
+	useEffect(() => {
+		if (!user) {
+			history.push('/');
+		}
+	}, [user, history]);
 	// const data = socket.on('tableData');
 
 	useEffect(() => {
