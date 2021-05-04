@@ -173,19 +173,44 @@ const GameScreen = ({ history, match }) => {
 					<Button onClick={handleLeave} className="ml-5 mt-5 " variant="danger">
 						Leave
 					</Button>
-					<Button onClick={handleFold} className="ml-5  my-3" variant="primary">
+					<Button
+						onClick={handleFold}
+						disabled={currentPlayer !== activePlayer}
+						className="ml-5  my-3"
+						variant="primary"
+					>
 						Fold
 					</Button>
-					<Button onClick={handleCheck} className="ml-5" variant="primary">
+					<Button
+						onClick={handleCheck}
+						disabled={currentPlayer !== activePlayer}
+						className="ml-5"
+						variant="primary"
+					>
 						Check
 					</Button>
-					<Button onClick={handleCall} className="ml-5 my-3" variant="primary">
+					<Button
+						onClick={handleCall}
+						disabled={currentPlayer !== activePlayer}
+						className="ml-5 my-3"
+						variant="primary"
+					>
 						Call
 					</Button>
-					<Button onClick={handleRaise} className="ml-5" variant="primary">
+					<Button
+						onClick={handleRaise}
+						disabled={currentPlayer !== activePlayer}
+						className="ml-5"
+						variant="primary"
+					>
 						Raise
 					</Button>
-					<Button onClick={handleBet} className="ml-5  my-3" variant="primary">
+					<Button
+						onClick={handleBet}
+						disabled={currentPlayer !== activePlayer}
+						className="ml-5  my-3"
+						variant="primary"
+					>
 						Bet
 					</Button>
 					<InputGroup>

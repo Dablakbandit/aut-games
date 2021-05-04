@@ -39,9 +39,11 @@ class PokerTable {
 		var { table } = this;
 		if (table.isHandInProgress()) {
 			if (!table.areBettingRoundsCompleted() && !table.isBettingRoundInProgress()) {
+				console.log('Ending betting round');
 				table.endBettingRound();
 			}
 			if (table.areBettingRoundsCompleted()) {
+				console.log('Showdown');
 				table.showdown();
 			}
 		}
@@ -97,16 +99,22 @@ class PokerTable {
 
 	actionTable = (pokerPlayer, action, betSize) => {
 		var { table } = this;
-		console.log(pokerPlayer.currentSeat);
-		console.log(table.playerToAct());
-		if (table.isBettingRoundInProgress() && table.playerToAct() == pokerPlayer.currentSeat) {
-			console.log(action);
-			if (betSize) {
-				table.actionTaken(action, betSize);
-			} else {
-				table.actionTaken(action);
+		console.log(table.isHandInProgress());
+		if (table.isHandInProgress()) {
+			console.log(table.seats());
+			if (
+				table.isBettingRoundInProgress() &&
+				table.playerToAct() == pokerPlayer.currentSeat
+			) {
+				console.log(action);
+				if (betSize) {
+					table.actionTaken(action, betSize);
+				} else {
+					table.actionTaken(action);
+				}
+				this.checkAndUpdate();
 			}
-			this.checkAndUpdate();
+			console.log(table.seats());
 		}
 	};
 }

@@ -42,7 +42,7 @@ class PokerPlayer {
 	}
 
 	setupVideoChat = () => {
-		this.gameSocket.on('callTable', (data) => {
+		this.gameSocket.on('videoCallTable', (data) => {
 			this.socketio.to(data.userCalling).emit('callIncoming', {
 				signal: data.signalData,
 				from: data.from,
@@ -109,31 +109,31 @@ class PokerPlayer {
 	};
 
 	foldTable = () => {
-		if (this.currentTable && this.currentSeat) {
+		if (this.currentTable && this.currentSeat != undefined) {
 			this.currentTable.actionTable(this, 'fold');
 		}
 	};
 
 	checkTable = () => {
-		if (this.currentTable && this.currentSeat) {
+		if (this.currentTable && this.currentSeat != undefined) {
 			this.currentTable.actionTable(this, 'check');
 		}
 	};
 
 	callTable = () => {
-		if (this.currentTable && this.currentSeat) {
+		if (this.currentTable && this.currentSeat != undefined) {
 			this.currentTable.actionTable(this, 'call');
 		}
 	};
 
 	raiseTable = (data) => {
-		if (this.currentTable && this.currentSeat && !isNaN(data.raise)) {
+		if (this.currentTable && this.currentSeat != undefined && !isNaN(data.raise)) {
 			this.currentTable.actionTable(this, 'raise', data.raise);
 		}
 	};
 
 	betTable = (data) => {
-		if (this.currentTable && this.currentSeat && !isNaN(data.bet)) {
+		if (this.currentTable && this.currentSeat != undefined && !isNaN(data.bet)) {
 			this.currentTable.actionTable(this, 'bet', data.bet);
 		}
 	};
