@@ -8,6 +8,7 @@ import { Container } from 'react-bootstrap';
 import LoginScreen from './Screens/LoginScreen';
 import { UserContext } from './UserContext';
 import RegisterScreen from './Screens/RegisterScreen';
+import GameScreen from './Screens/GameScreen';
 
 function App() {
 	const userInfo = localStorage.getItem('userInfo')
@@ -25,6 +26,7 @@ function App() {
 				<main>
 					<Route exact path="/" component={HomeScreen} />
 					<Route exact path="/profile" component={ProfileScreen} />
+					<Route exact path="/game" component={GameScreen} />
 
 					<Container>
 						<Route exact path="/login" component={LoginScreen} />

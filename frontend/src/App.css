@@ -72,6 +72,14 @@ body {
 	color: #3b8d99;
 }
 
+.playingCard {
+	width: 70px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: initial;
+	box-sizing: initial;
+}
 /* Stolen CSS */
 /* .pulse {
 	margin: auto;
