@@ -4,13 +4,11 @@ const PokerTable = require('./PokerTable');
 global.activeTables = {};
 
 class PokerPlayer {
-	socketio;
-	gameSocket;
-	currentTable;
-	currentSeat = -1;
 	constructor(socketio, gameSocket) {
 		this.socketio = socketio;
 		this.gameSocket = gameSocket;
+		this.currentTable = null;
+		this.currentSeat = -1;
 
 		// Run code when the client disconnects from their socket session.
 		gameSocket.on('disconnect', this.disconnectFromTable);
@@ -99,7 +97,10 @@ class PokerPlayer {
 		}
 
 		// Return the Table ID and the socket ID to the sender
-		this.gameSocket.emit('createTable', { tableId: tableId, mySocketId: this.gameSocket.id });
+		this.gameSocket.emit('createTable', {
+			tableId: tableId,
+			mySocketId: this.gameSocket.id,
+		});
 
 		// Join the socket room
 		this.gameSocket.join(tableId);
@@ -115,8 +116,9 @@ class PokerPlayer {
 
 	disconnectFromTable = () => {
 		if (this.currentTable) {
+			var { players } = this.currentTable;
 			this.currentTable.leaveTable(this);
-			if (this.currrentTable.players.length == 0) {
+			if (players.length == 0) {
 				delete activeTables[currentTable.tableId];
 			}
 		}

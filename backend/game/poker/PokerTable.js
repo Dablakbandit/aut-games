@@ -3,13 +3,10 @@ const maxSeats = 2;
 
 //table.holeCards();
 class PokerTable {
-	socketio;
-	tableId;
-	players = [];
-	table;
 	constructor(socketio, tableId) {
 		this.socketio = socketio;
 		this.tableId = tableId;
+		this.players = [];
 		this.table = new poker.Table({
 			ante: 0,
 			smallBlind: 10,
