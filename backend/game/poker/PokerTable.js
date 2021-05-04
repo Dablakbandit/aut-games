@@ -32,7 +32,7 @@ class PokerTable {
 				tableData['button'] = table.button();
 			}
 		}
-		socketio.sockets.in(this.tableId).emit('tableData', JSON.stringify(tableData));
+		socketio.sockets.in(this.tableId).emit('tableData', tableData);
 	};
 
 	checkAndUpdate = () => {
