@@ -36,24 +36,21 @@ const LoginScreen = ({ history }) => {
 
 	return (
 		<Container>
-			<Row>
+			<Row className="d-flex justify-content-center ">
 				<Col md={8} xs={12}>
 					<Form onSubmit={submitHandler} className="my-5">
 						<Form.Group controlId="formBasicEmail">
-							<Form.Label>Email address</Form.Label>
+							<Form.Label className="test-style ">Email address</Form.Label>
 							<Form.Control
 								type="email"
 								placeholder="Enter email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 							></Form.Control>
-							<Form.Text className="text-muted">
-								We'll never share your email with anyone else.
-							</Form.Text>
 						</Form.Group>
 
 						<Form.Group className="my-3" controlId="formBasicPassword">
-							<Form.Label>Password</Form.Label>
+							<Form.Label className="test-style ">Password</Form.Label>
 							<Form.Control
 								type="password"
 								placeholder="Enter password"
@@ -68,7 +65,7 @@ const LoginScreen = ({ history }) => {
 						{error && <Alert variant="info">{error}</Alert>}
 
 						<Row className="py-3">
-							<Col>
+							<Col className="test-style ">
 								Don't have an account?
 								<Link to="/register"> Register</Link>
 							</Col>

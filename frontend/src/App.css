@@ -8,31 +8,48 @@ body {
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: #f4feff;
+	background-color: rgb(194, 194, 194);
 }
 #heroBtn:hover {
-	background-color: #8a2387;
+	background-color: #ce1313;
 	transform: scale(1.1);
 	transition: all 0.2s ease-in;
 }
 
 #heroBtn {
-	background-color: #e94057;
+	background-color: #a52a2a;
 	color: #fff;
 	font-size: 1.1rem;
 	font-weight: 300;
 	padding: 16px 40px;
-	border-radius: 30px;
 	transition: all 0.2s linear;
 }
 
+.navText {
+	color: rgb(194, 194, 194);
+}
+
 .navbar {
-	background-color: transparent;
+	background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.2rem;
+	position: sticky;
+	top: 0;
+	z-index: 999;
 }
 
 .nav-logo {
+	color: rgb(155, 15, 15);
+
 	font-weight: 700;
 	font-size: 2rem;
+}
+
+.test-style {
+	color: rgb(194, 194, 194);
 }
 
 .profileBtn:hover {
@@ -52,30 +69,6 @@ body {
 
 .card-link {
 	color: #3b8d99;
-}
-
-.likeBtn {
-	background-color: #5d26c1;
-	border: none;
-	border-radius: 30px;
-	transition: all 0.2s linear;
-}
-
-.likeBtn:hover {
-	background-color: #26c167;
-	transform: translate(20%, -10%);
-}
-
-.dislikeBtn {
-	background-color: #2695c1;
-	border: none;
-	border-radius: 30px;
-	transition: all 0.2s linear;
-}
-
-.dislikeBtn:hover {
-	background-color: #8a1d1d;
-	transform: translate(-20%, -10%);
 }
 
 /* Stolen CSS */

@@ -21,14 +21,16 @@ const Header = () => {
 	};
 
 	return (
-		<header>
+		<header style={{ height: '80px', backgroundColor: 'black' }}>
 			<Navbar
 				className="navbar"
+				variant="dark"
+				// style={{ position: 'fixed' }}
 				// style={{ background: 'linear-gradient(to right, #c31432, #240b36)' }}
 			>
 				<Container>
 					<LinkContainer style={{ cursor: 'pointer' }} to="/">
-						<div className="nav-logo">Perfect Match</div>
+						<div className="nav-logo">Poker Skills</div>
 					</LinkContainer>
 					{user ? (
 						<>

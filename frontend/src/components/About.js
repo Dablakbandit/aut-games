@@ -15,7 +15,7 @@ const About = () => {
 		fontWeight: '700',
 		lineHeight: '1.3',
 		marginBottom: '40px',
-		color: '#2b044d',
+		color: '#fefefe',
 		maxWidth: '600px',
 	};
 
@@ -29,24 +29,23 @@ const About = () => {
 	};
 
 	return (
-		<div id="about" style={{ minHeight: '100vh' }}>
-			<Container className="d-flex justify-content-center align-items-center h-100 my-5">
-				<Row>
+		<div id="about" style={{ minHeight: '100vh', backgroundColor: '#150f0f' }}>
+			<Container className="d-flex justify-content-center align-items-center h-100 mb-5">
+				<Row className="mt-5">
 					<Col md={7} className="">
 						<Slide left>
-							<Image style={imgStyle} src="img/hero3.png"></Image>
+							<Image style={imgStyle} src="img/poker.png"></Image>
 						</Slide>
 					</Col>
 					<Col md={5} className="d-flex flex-column align-items-baseline my-5">
 						<Slide right>
-							<h2 style={headerStyle}>More than 80% of coders found their match</h2>
+							<h2 style={headerStyle}>The best platform for playing poker online</h2>
 							<div style={textStyle}>
-								More than 300 coders found their match and win successfully
-								Hackathons. A good team is key to success.
+								Hundreds of people already joined us and play poker with their
+								friends. Play poker and see people's faces, you can play from any
+								part of the world
 							</div>
 						</Slide>
-
-						{/* <Button id="heroBtn">Join now</Button> */}
 					</Col>
 				</Row>
 			</Container>

@@ -1,61 +1,60 @@
 import React from 'react';
-import { Container, Row, Col, Button, Image } from 'react-bootstrap';
-import Slide from 'react-reveal';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import {socket} from '../connection/socket'
+import Header from './Header';
 
 const Hero = () => {
-	const imgStyle = {
-		width: '600px',
-		display: 'block',
-		objectFit: 'cover',
-	};
+    const headerStyle = {
+        fontSize: '4rem',
+        fontWeight: '700',
+        lineHeight: '1.3',
+        marginBottom: '40px',
+        color: '#fefefe',
+        marginTop: '100px',
+    };
 
-	const headerStyle = {
-		fontSize: '4rem',
-		fontWeight: '700',
-		lineHeight: '1.3',
-		marginBottom: '40px',
-		color: '#2b044d',
-		maxWidth: '600px',
-	};
+    const containerStyle = {
+        background:
+            'linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1))',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        height: '100vh',
+    };
 
-	const textStyle = {
-		color: '#707b8e',
-		fontSize: '1rem',
-		lineHeight: '30px',
-		marginBottom: '15px',
-		fontWeight: '400',
-		maxWidth: '300px',
-	};
+    const videoStyle = {
+        objectFit: 'cover',
+        width: '100%',
+        height: '100%',
+        background:
+            'linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1))',
 
-	function testButton(){
-		socket.emit('test', 'hello');
-	};
+        position: 'absolute',
+        zIndex: '-1',
+    };
 
-	return (
-		<div id="home" style={{ minHeight: '100vh' }}>
-			<Container className="d-flex justify-content-center align-items-center h-100 my-5">
-				<Row>
-					<Col md={5} className="d-flex flex-column align-items-baseline my-5">
-						<Slide left>
-							<h1 style={headerStyle}>Hackathon Match</h1>
-							<div style={textStyle}>
-								It can be a struggle to find a teammate that you get along with.
-								Sign up and build amazing projects with your perfect hackathon
-								match.
-							</div>						
-							<Button id="heroBtn" onClick={testButton}>Join now</Button>
-						</Slide>
-					</Col>
-					<Col md={7} className="">
-						<Slide right>
-							<Image style={imgStyle} src="img/hero4.png"></Image>
-						</Slide>
-					</Col>
-				</Row>
-			</Container>
-		</div>
-	);
+    return (
+        <div style={containerStyle}>
+            <video
+                style={videoStyle}
+                src="./img/dices.mp4"
+                autoPlay
+                loop
+                muted
+            />
+            {/* <Header></Header> */}
+
+            <Container className="vh-100 d-flex flex-column  align-items-center">
+                <h1 style={headerStyle}>Your game awaits</h1>
+                <Row>
+                    <LinkContainer to="/register" className="mx-2">
+                        <Button id="heroBtn">Join now</Button>
+                    </LinkContainer>
+                    <LinkContainer to="/login" className="mx-2">
+                        <Button id="heroBtn">Start Playing</Button>
+                    </LinkContainer>
+                </Row>
+            </Container>
+        </div>
+    );
 };
 export default Hero;
