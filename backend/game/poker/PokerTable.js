@@ -37,11 +37,13 @@ class PokerTable {
 
 	checkAndUpdate = () => {
 		var { table } = this;
-		if (!table.areBettingRoundsCompleted() && !table.isBettingRoundInProgress()) {
-			table.endBettingRound();
-		}
-		if (table.areBettingRoundsCompleted()) {
-			table.showdown();
+		if (table.isHandInProgress()) {
+			if (!table.areBettingRoundsCompleted() && !table.isBettingRoundInProgress()) {
+				table.endBettingRound();
+			}
+			if (table.areBettingRoundsCompleted()) {
+				table.showdown();
+			}
 		}
 		this.updatePlayers();
 	};
