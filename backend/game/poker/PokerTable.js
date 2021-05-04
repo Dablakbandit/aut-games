@@ -68,7 +68,7 @@ class PokerTable {
 		var seats = this.table.seats();
 		var activeSeats = 0;
 		for (var seat = 0; seat < maxSeats; seat++) {
-			if (seats[seat] === null) {
+			if (seats[seat] !== null) {
 				activeSeats++;
 			}
 		}
