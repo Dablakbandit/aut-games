@@ -35,13 +35,7 @@ const Profile = ({ history, match }) => {
 		e.preventDefault();
 
 		if (gameId?.length !== 0) {
-			const result = socket.emit('joinTable', { tableId: gameId });
-
-			if (result.connected) {
-				history.push(`/game/${gameId}`);
-			} else {
-				alert('failed to connect');
-			}
+			history.push(`/game/${gameId}`);
 		} else {
 			alert('Please enter game id');
 		}

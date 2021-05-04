@@ -53,8 +53,9 @@ const GameScreen = ({ history, match }) => {
 	// const data = socket.on('tableData');
 
 	useEffect(() => {
+		socket.emit('joinTable', { tableId: gameId });
 		socket.emit('sitTable', { chips: mainPlayer.numberOfChips });
-	}, [mainPlayer]);
+	}, [gameId, mainPlayer]);
 
 	useEffect(() => {
 		socket.removeEventListener('currentSeat');
@@ -114,11 +115,13 @@ const GameScreen = ({ history, match }) => {
 	const handleFold = () => {
 		socket.emit('foldTable');
 	};
+
 	const handleCheck = () => {
 		if (canCheck()) {
 			socket.emit('checkTable');
 		}
 	};
+
 	const handleCall = () => {
 		socket.emit('callTable');
 	};
