@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { pokerPlayers, mainPlayer } from '../data';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button, Row, Col, FormControl, InputGroup } from 'react-bootstrap';
 
 const backgroundStyle = {
 	background: 'url("../img/table.jpg")',
@@ -24,15 +24,28 @@ const activeCard = {
 const textStyle = {
 	fontSize: '0.8rem',
 };
-const GameScreen = () => {
+const GameScreen = ({ history, match }) => {
+	const gameId = match.params.gameId;
 	const [players, setPlayers] = useState([]);
 	const [self, setSelf] = useState({});
+	const [amount, setAmount] = useState(0);
 	const [table, setTable] = useState({});
 
 	useEffect(() => {
+		// if (gameId) {
+		// 	alert('game id is ' + gameId);
+		// }
+
 		setPlayers(pokerPlayers);
 		setSelf(mainPlayer);
-	}, []);
+	}, [gameId]);
+
+	const handleBet = () => {};
+	const handleRaise = () => {};
+	const handleBet = () => {};
+	const handleBet = () => {};
+	const handleBet = () => {};
+	const handleBet = () => {};
 
 	return (
 		<div style={backgroundStyle}>
@@ -65,22 +78,39 @@ const GameScreen = () => {
 				))}
 			</Row>
 			<Row>
-				<Col md={2} className="d-flex justify-content-center mt-5 flex-column ">
-					<Button className="ml-5 mt-5" variant="primary">
+				<Col
+					md={2}
+					className="d-flex justify-content-center mt-5 flex-column"
+					style={{ zIndex: 1031 }}
+				>
+					<Button className="ml-5 mt-5 " variant="danger">
+						Leave
+					</Button>
+					<Button className="ml-5  my-3" variant="primary">
 						Fold
 					</Button>
-					<Button className="ml-5 my-3" variant="primary">
+					<Button className="ml-5" variant="primary">
 						Check
 					</Button>
-					<Button className="ml-5" variant="primary">
+					<Button className="ml-5 my-3" variant="primary">
 						Call
 					</Button>
-					<Button className="ml-5 my-3" variant="primary">
+					<Button className="ml-5" variant="primary">
 						Raise
 					</Button>
-					<Button className="ml-5" variant="primary">
+					<Button className="ml-5  my-3" variant="primary">
 						Bet
 					</Button>
+					<InputGroup>
+						<FormControl
+							type="number"
+							placeholder="Amount"
+							aria-label="Username"
+							className="ml-5"
+							onChange={(e) => setAmount(e.target.value)}
+							value={amount}
+						/>
+					</InputGroup>
 				</Col>
 
 				<Col md={8} className="d-flex align-items-center justify-content-center mt-5">
