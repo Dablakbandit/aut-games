@@ -12,7 +12,7 @@ class PokerPlayer {
 
 		// Run code when the client disconnects from their socket session.
 		gameSocket.on('disconnect', this.disconnectFromTable);
-		gameSocket.on('leaveTabe', this.disconnectFromTable);
+		gameSocket.on('leaveTable', this.disconnectFromTable);
 
 		// User creates new poker table
 		gameSocket.on('createTable', this.createTable);

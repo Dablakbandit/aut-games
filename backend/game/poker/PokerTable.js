@@ -87,6 +87,7 @@ class PokerTable {
 			this.socketio.sockets
 				.in(this.tableId)
 				.emit('playerLeaveTable', pokerPlayer.currentSeat);
+			this.checkAndUpdate();
 		}
 		//TODO refund tokens
 	};
