@@ -94,13 +94,13 @@ const GameScreen = ({ history, match }) => {
 
 	const handleBet = () => {
 		if (amount > 0) {
-			socket.emit('betTable', { bet: amount });
+			socket.emit('betTable', { bet: parseInt(amount) });
 			setAmount(0);
 		}
 	};
 	const handleRaise = () => {
 		if (amount > 0) {
-			socket.emit('raiseTable', { raise: amount });
+			socket.emit('raiseTable', { raise: parseInt(amount) });
 			setAmount(0);
 		}
 	};

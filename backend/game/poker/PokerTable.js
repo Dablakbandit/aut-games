@@ -104,10 +104,14 @@ class PokerTable {
 				table.isBettingRoundInProgress() &&
 				table.playerToAct() == pokerPlayer.currentSeat
 			) {
-				if (betSize) {
-					table.actionTaken(action, betSize);
-				} else {
-					table.actionTaken(action);
+				try {
+					if (betSize) {
+						table.actionTaken(action, betSize);
+					} else {
+						table.actionTaken(action);
+					}
+				} catch (e) {
+					console.log(e);
 				}
 				this.checkAndUpdate();
 			}
