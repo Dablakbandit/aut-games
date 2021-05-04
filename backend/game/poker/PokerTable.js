@@ -99,14 +99,11 @@ class PokerTable {
 
 	actionTable = (pokerPlayer, action, betSize) => {
 		var { table } = this;
-		console.log(table.isHandInProgress());
 		if (table.isHandInProgress()) {
-			console.log(table.seats());
 			if (
 				table.isBettingRoundInProgress() &&
 				table.playerToAct() == pokerPlayer.currentSeat
 			) {
-				console.log(action);
 				if (betSize) {
 					table.actionTaken(action, betSize);
 				} else {
@@ -114,7 +111,6 @@ class PokerTable {
 				}
 				this.checkAndUpdate();
 			}
-			console.log(table.seats());
 		}
 	};
 }

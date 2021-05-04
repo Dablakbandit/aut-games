@@ -116,7 +116,16 @@ class PokerPlayer {
 
 	checkTable = () => {
 		if (this.currentTable && this.currentSeat != undefined) {
-			this.currentTable.actionTable(this, 'check');
+			// TODO checks
+			var seats = this.currentTable.table.seats();
+			var { betSize } = seats[this.currentSeat];
+			var maxBetSize = Math.max.apply(
+				Math,
+				seats.filter((seat) => seat !== null).map((seat) => seat?.betSize)
+			);
+			if (betSize == maxBetSize) {
+				this.currentTable.actionTable(this, 'check');
+			}
 		}
 	};
 

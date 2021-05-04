@@ -105,6 +105,18 @@ const GameScreen = ({ history, match }) => {
 		}
 	};
 
+	const disableCheck = () => {
+		if (players[currentPlayer] === undefined) {
+			return true;
+		}
+		var { betSize } = players[currentPlayer];
+		var maxBetSize = Math.max.apply(
+			Math,
+			players.filter((seat) => seat !== null).map((seat) => seat?.betSize)
+		);
+		return betSize !== maxBetSize;
+	};
+
 	return (
 		<div style={backgroundStyle}>
 			<Modal show={modal} onHide={() => {}}>
@@ -183,7 +195,7 @@ const GameScreen = ({ history, match }) => {
 					</Button>
 					<Button
 						onClick={handleCheck}
-						disabled={currentPlayer !== activePlayer}
+						disabled={currentPlayer !== activePlayer || disableCheck()}
 						className="ml-5"
 						variant="primary"
 					>
