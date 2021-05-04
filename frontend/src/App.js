@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import HomeScreen from './Screens/HomeScreen';
 import ProfileScreen from './Screens/ProfileScreen';
 import Header from './components/Header';
-import { Container } from 'react-bootstrap';
 import LoginScreen from './Screens/LoginScreen';
 import { UserContext } from './UserContext';
 import RegisterScreen from './Screens/RegisterScreen';

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import Header from './Header';
 
 const Hero = () => {
 	const headerStyle = {

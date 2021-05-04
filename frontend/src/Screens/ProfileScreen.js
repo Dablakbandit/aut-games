@@ -16,6 +16,8 @@ const backgroundStyle = {
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
 	height: '100vh',
+	width: '100vw',
+	position: 'fixed',
 };
 
 const Profile = ({ history, match }) => {
@@ -38,7 +40,7 @@ const Profile = ({ history, match }) => {
 			if (result.connected) {
 				history.push(`/game/${gameId}`);
 			} else {
-				alert('failed to connect ');
+				alert('failed to connect');
 			}
 		} else {
 			alert('Please enter game id');
@@ -53,7 +55,7 @@ const Profile = ({ history, match }) => {
 		if (result.connected) {
 			history.push(`/game/${id}`);
 		} else {
-			alert('failed to connect ');
+			alert('failed to connect');
 		}
 		// console.log(id);
 	};
@@ -65,9 +67,9 @@ const Profile = ({ history, match }) => {
 					<Col md={7}></Col>
 					<Image style={imgStyle} src="./img/cards.png"></Image>
 				</Row>
-				<Row className="d-flex">
-					<Col md={7} className="m-auto d-flex align-items-center justify-content-center">
-						<Form onSubmit={submitHandler} className="my-5">
+				<Form onSubmit={submitHandler} className="my-5">
+					<Row className="justify-content-md-center">
+						<Col sm={8} className="align-items-center justify-content-center">
 							<Form.Group controlId="formBasicEmail">
 								<Form.Label className="test-style ">Game id</Form.Label>
 								<Form.Control
@@ -78,16 +80,23 @@ const Profile = ({ history, match }) => {
 									onChange={(e) => setGameId(e.target.value)}
 								></Form.Control>
 							</Form.Group>
-							<Button className="mx-3 heroBtn" onClick={() => handleCreate()}>
+						</Col>
+					</Row>
+					<Row className="justify-content-md-center">
+						<Col sm={3}></Col>
+						<Col sm className="m-auto d-flex align-items-center justify-content-center">
+							<Button className="mx-3 heroBtn mt-1" onClick={() => handleCreate()}>
 								Create a game
 							</Button>
-
-							<Button className="mx-3 heroBtn" type="submit" variant="primary">
+						</Col>
+						<Col sm className="d-flex align-items-center justify-content-center">
+							<Button className="mx-3 heroBtn mt-1" type="submit" variant="primary">
 								Join a game
 							</Button>
-						</Form>
-					</Col>
-				</Row>
+						</Col>
+						<Col sm={3}></Col>
+					</Row>
+				</Form>
 			</Container>
 		</div>
 	);
