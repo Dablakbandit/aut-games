@@ -16,14 +16,15 @@ export const login = async (email, password) => {
 	return data;
 };
 
-export const register = async (name, email, age, password) => {
+export const register = async (name, email, password) => {
 	const config = {
 		headers: {
 			'Content-Type': 'application/json',
 		},
 	};
 
-	const { data } = await axios.post('/api/users/', { email, name, password, age }, config);
+	console.log('register');
+	const { data } = await axios.post('/api/users/', { email, name, password }, config);
 	localStorage.setItem('userInfo', JSON.stringify(data));
 
 	console.log(data + ' login');

@@ -295,7 +295,7 @@ const GameScreen = ({ history, match }) => {
 				<Col
 					md={2}
 					className="d-flex justify-content-center mt-5 flex-column"
-					style={{ zIndex: 1031 }}
+					style={{ zIndex: 1031, position: 'fixed' }}
 				>
 					<Button onClick={handleLeave} className="ml-5 mt-5 " variant="danger">
 						Leave

@@ -42,21 +42,15 @@ const Header = () => {
 					{user ? (
 						<>
 							<Nav className="ml-auto mr-4">
-								<Nav.Link>
-									<LinkContainer className="mx-1" to="/search">
-										<Nav.Link>Search Matches</Nav.Link>
-									</LinkContainer>
-								</Nav.Link>
-								<Nav.Link>
-									<LinkContainer className="mx-1" to="/likedBy">
-										<Nav.Link>People Who Liked You</Nav.Link>
-									</LinkContainer>
-								</Nav.Link>
-								<Nav.Link>
-									<LinkContainer className="mx-1" to="/matches">
-										<Nav.Link>Matches</Nav.Link>
-									</LinkContainer>
-								</Nav.Link>
+								<LinkContainer className="mx-1" to="/search">
+									<Nav.Link>Search Matches</Nav.Link>
+								</LinkContainer>
+								<LinkContainer className="mx-1" to="/likedBy">
+									<Nav.Link>People Who Liked You</Nav.Link>
+								</LinkContainer>
+								<LinkContainer className="mx-1" to="/matches">
+									<Nav.Link>Matches</Nav.Link>
+								</LinkContainer>
 							</Nav>
 							<Nav>
 								<NavDropdown
@@ -76,28 +70,20 @@ const Header = () => {
 					) : (
 						<>
 							<Nav className="ml-auto mr-4">
-								<Nav.Link>
-									<LinkContainer to="/">
-										<Nav.Link onClick={() => scrollTo('root')}>Home</Nav.Link>
-									</LinkContainer>
-								</Nav.Link>
-								<Nav.Link>
-									<LinkContainer to="/">
-										<Nav.Link onClick={() => scrollTo('about')}>About</Nav.Link>
-									</LinkContainer>
-								</Nav.Link>
-								<Nav.Link>
-									<LinkContainer to="/">
-										<Nav.Link onClick={() => scrollTo('team')}>Team</Nav.Link>
-									</LinkContainer>
-								</Nav.Link>
+								<LinkContainer to="/">
+									<Nav.Link onClick={() => scrollTo('root')}>Home</Nav.Link>
+								</LinkContainer>
+								<LinkContainer to="/">
+									<Nav.Link onClick={() => scrollTo('about')}>About</Nav.Link>
+								</LinkContainer>
+								<LinkContainer to="/">
+									<Nav.Link onClick={() => scrollTo('team')}>Team</Nav.Link>
+								</LinkContainer>
 							</Nav>
 							<Nav>
-								<Nav.Link>
-									<LinkContainer to="/login">
-										<Nav.Link>Sign in</Nav.Link>
-									</LinkContainer>
-								</Nav.Link>
+								<LinkContainer to="/login">
+									<Nav.Link>Sign in</Nav.Link>
+								</LinkContainer>
 							</Nav>
 						</>
 					)}

@@ -49,7 +49,7 @@ const LoginScreen = ({ history }) => {
 					<Col md={8} xs={12}>
 						<Form onSubmit={submitHandler} className="my-5">
 							<Form.Group controlId="formBasicEmail">
-								<Form.Label className="test-style ">Email address</Form.Label>
+								<Form.Label className="text-style  ">Email address</Form.Label>
 								<Form.Control
 									type="email"
 									placeholder="Enter email"
@@ -59,7 +59,7 @@ const LoginScreen = ({ history }) => {
 							</Form.Group>
 
 							<Form.Group className="my-3" controlId="formBasicPassword">
-								<Form.Label className="test-style ">Password</Form.Label>
+								<Form.Label className="text-style  ">Password</Form.Label>
 								<Form.Control
 									type="password"
 									placeholder="Enter password"
@@ -74,7 +74,7 @@ const LoginScreen = ({ history }) => {
 							{error && <Alert variant="info">{error}</Alert>}
 
 							<Row className="py-3">
-								<Col className="test-style ">
+								<Col className="text-style  ">
 									Don't have an account?
 									<Link to="/register"> Register</Link>
 								</Col>

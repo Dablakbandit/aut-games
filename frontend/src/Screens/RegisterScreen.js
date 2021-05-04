@@ -15,7 +15,6 @@ const backgroundStyle = {
 const RegisterScreen = ({ history }) => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
-	const [age, setAge] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState(null);
@@ -39,7 +38,7 @@ const RegisterScreen = ({ history }) => {
 		} else {
 			try {
 				setMessage(null);
-				const user = await register(name, email, age, password);
+				const user = await register(name, email, password);
 				setUser(user);
 			} catch (error) {
 				setError(
@@ -58,7 +57,7 @@ const RegisterScreen = ({ history }) => {
 					<Col md={8} xs={12}>
 						<Form onSubmit={submitHandler} className="my-5">
 							<Form.Group controlId="name">
-								<Form.Label>Name</Form.Label>
+								<Form.Label className="text-style  ">Name</Form.Label>
 								<Form.Control
 									type="name"
 									placeholder="Enter your name"
@@ -69,7 +68,7 @@ const RegisterScreen = ({ history }) => {
 							</Form.Group>
 
 							<Form.Group controlId="formBasicEmail">
-								<Form.Label>Email address</Form.Label>
+								<Form.Label className="text-style  ">Email address</Form.Label>
 								<Form.Control
 									type="email"
 									placeholder="Enter email"
@@ -78,20 +77,8 @@ const RegisterScreen = ({ history }) => {
 									required
 								></Form.Control>
 							</Form.Group>
-
-							<Form.Group controlId="age">
-								<Form.Label>Age</Form.Label>
-								<Form.Control
-									type="number"
-									placeholder="Enter your age"
-									value={age}
-									onChange={(e) => setAge(e.target.value)}
-									required
-								></Form.Control>
-							</Form.Group>
-
 							<Form.Group className="my-3" controlId="formBasicPassword">
-								<Form.Label>Password</Form.Label>
+								<Form.Label className="text-style  ">Password</Form.Label>
 								<Form.Control
 									type="password"
 									placeholder="Enter password"
@@ -102,7 +89,7 @@ const RegisterScreen = ({ history }) => {
 							</Form.Group>
 
 							<Form.Group controlId="confirmPassword">
-								<Form.Label>Confirm Password</Form.Label>
+								<Form.Label className="text-style  ">Confirm Password</Form.Label>
 								<Form.Control
 									type="password"
 									placeholder="Confirm password"
@@ -119,7 +106,7 @@ const RegisterScreen = ({ history }) => {
 							{error && <Alert variant="info">{error}</Alert>}
 
 							<Row className="py-3">
-								<Col>
+								<Col className="text-style  ">
 									Got an account?
 									<Link to="/login"> Login</Link>
 								</Col>

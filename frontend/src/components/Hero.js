@@ -36,11 +36,11 @@ const Hero = () => {
 
 			<Container className="vh-100 d-flex flex-column  align-items-center">
 				<h1 style={headerStyle}>Your game awaits</h1>
-				<Row>
-					<LinkContainer to="/register" className="mx-2">
+				<Row className="d-flex justify-content-center flex-wrap align-items-center">
+					<LinkContainer to="/register" className="mx-2 my-1">
 						<Button className="heroBtn">Join now</Button>
 					</LinkContainer>
-					<LinkContainer to="/login" className="mx-2">
+					<LinkContainer to="/login" className="mx-2 my-1">
 						<Button className="heroBtn">Start Playing</Button>
 					</LinkContainer>
 				</Row>
