@@ -74,8 +74,8 @@ class PokerTable {
 		}
 		if (activeSeats == 2) {
 			table.startHand();
-			this.checkAndUpdate();
 		}
+		this.checkAndUpdate();
 	};
 
 	leaveTable = (pokerPlayer) => {
