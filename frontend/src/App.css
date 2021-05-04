@@ -80,6 +80,10 @@ body {
 	vertical-align: initial;
 	box-sizing: initial;
 }
+
+#clipboard:hover {
+	opacity: 0.5;
+}
 /* Stolen CSS */
 /* .pulse {
 	margin: auto;

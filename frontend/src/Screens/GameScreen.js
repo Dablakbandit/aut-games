@@ -133,6 +133,7 @@ const GameScreen = ({ history, match }) => {
 							}}
 							style={{ cursor: 'pointer' }}
 							src="../img/clipboard.png"
+							id="clipboard"
 							alt="clipboard"
 						/>
 					</div>
