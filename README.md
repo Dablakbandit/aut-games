@@ -1,39 +1,89 @@
-### **REAMDE**
-# PerfectMatch-FullStacl
+<h1 align="center">
+	<br>
+	<a height="200" href="#" target="_blank" alt="Link to application"><img src="https://aut-games.herokuapp.com/logo512.png" alt="Random image" width="200"></a>
+	<br>
+	<br>
+	<p>Aut Games</p>
+</h1>
 
-Note: This repository stores both frontend and backend, since I was the only developer I did that for faster development. The parent directory stores the backend of the app. 
+<h4 align="center">An open source poker game website made for the <a href="https://beta.myskillsme.com/" target="_blank" alt="Link to skills me">Skillsme</a> Auckland Student Coding Hackathon</h4>
 
-To install FRONTEND, go to frontend folder and see REAMDE
+<p align="center">
+        <img src="https://img.shields.io/badge/Express%20Version-%5E4.17.1-lightgrey" >
+        <img src="https://img.shields.io/github/package-json/v/AUT-HACKATHON/aut-games/main?label=Stable%20Version&color=blueviolet">
+        <img src="https://img.shields.io/github/package-json/v/AUT-HACKATHON/aut-games/swagger?label=Next%20Version&color=lightgrey">
 
-Run npm install:
+</p>
 
-This app has a few written scripts for ease of use. Run them from the root directory
+<p align="center">
+		<a href="#demo">Demo</a> •
+		<a href="#how-to-use">How To Use</a> •
+		<a href="#key-features">Key Features</a> •
+		<a href="#local-instance">Local Instance</a> •
+		<a href="#license">License</a> •
+		<a href="#credits">Credits</a>
+</p>
 
-**npm start**:
-    It will run the server.js file.
-    Open http://localhost:8000 or http://localhost:5000 to view it in the browser.
-    
-**"npm run server"**: 
-    This will run server.js with the nodemone.
-    So, all the changes you make will be updated on the server.
-    Open http://localhost:8000 or http://localhost:5000 to view it in the browser.
-      
-**"npm run client"**: 
-	This will run a frontend of the application
-    Open http://localhost:3000 to view it in the browser.
-    
-**"npm run dev"**:  This will run both frontend and backend using nodemon. 
-    Open http://localhost:3000 to view frontend in the browser.
-    Open http://localhost:8000 or http://localhost:5000 to view backend in the browser.
-    
-**"npm run data:import"**: 
-    This command will import dataset from backend/data/users.js into mongodb and delete and previous records
-    Open mongodb collections perfect-match/users to view results.
-    
-**"npm run data:destroy"**: This command will simply clear the database.
-    Open mongodb collections perfect-match/users to view results.
-    
-**"npm run heroku-postbuild"**: 
-This command will deploy the app to heroku
+## Demo
 
+Swagger API Docs: <a href="https://perfectmatchbackend.herokuapp.com/api-docs/">https://perfectmatchbackend.herokuapp.com/api-docs/</a><br>
+Front end Demo: <a href="https://youtube.com">https://youtube.com</a>
 
+## How To Use
+
+Go to <a href="https://aut-games.herokuapp.com/">https://aut-games.herokuapp.com/</a> create an account / login.
+
+Click create a game or get a link/game id from a friend and click join a game.<br />
+Play poker with a friend and enjoy!<br />
+There is 15 seconds inbetween games for players to leave, or leave anytime to be refunded your tokens.<br />
+View the leader board by clicking it in the header.
+
+## Key Features
+
+<ul>
+<li>Join from url link</li>
+<li>Share to Facebook/Twitter/Whatsapp</li>
+</ul>
+
+## Local Instance
+
+```sh
+git clone https://github.com/AUT-HACKATHON/aut-games.git ./games
+```
+
+and then
+
+```
+cd ./game && yarn;
+cd ./frontend && yarn
+cd ..
+cp .env.example .env
+```
+
+then fill out the .env providing your mongodb information and jwt secret
+
+```
+npm run dev
+```
+
+## License
+
+<p> 
+<strong>The MIT License</strong><br>
+
+Copyright 2021 AUT Games
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+</p>
+
+## Credits
+
+> Discord [@Mac#7445](http://urlecho.appspot.com/echo?status=200&Content-Type=text%2Fhtml&body=%40Mac%237445) &nbsp;&middot;&nbsp;
+> Github [@MrGeet](https://github.com/MrGeet) &nbsp;&middot;&nbsp;
+> Discord [Dablakbandit#0001](http://urlecho.appspot.com/echo?status=200&Content-Type=text%2Fhtml&body=Dablakbandit%230001) &nbsp;&middot;&nbsp;
+> Github [@AshleyThew](https://github.com/AshleyThew)
