@@ -45,14 +45,11 @@ const Profile = ({ history, match }) => {
 
 	const handleCreate = () => {
 		const id = uuidv4();
-		const d = socket.on('tableData', (data) => {
-			console.log(data);
-		});
-		console.log(d);
+
 		const result = socket.emit('createTable', { tableId: id });
 
 		if (result.connected) {
-			// history.push(`/game/${id}`);
+			history.push(`/game/${id}`);
 		} else {
 			alert('failed to connect ');
 		}
