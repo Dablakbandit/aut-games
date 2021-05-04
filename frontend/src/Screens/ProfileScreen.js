@@ -28,7 +28,7 @@ const Profile = ({ history, match }) => {
 		const result = socket.emit('joinTable', { tableId: id });
 
 		if (result.connected) {
-			history.push(`/${id}`);
+			history.push(`/game/${id}`);
 		} else {
 			alert('failed to connect ');
 		}
@@ -40,7 +40,7 @@ const Profile = ({ history, match }) => {
 		const result = socket.emit('createTable', { tableId: id });
 
 		if (result.connected) {
-			history.push(`/${id}`);
+			history.push(`/game/${id}`);
 		} else {
 			alert('failed to connect ');
 		}

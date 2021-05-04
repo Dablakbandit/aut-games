@@ -3,7 +3,7 @@ import { pokerPlayers, mainPlayer } from '../data';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 
 const backgroundStyle = {
-	background: 'url("./img/table.jpg")',
+	background: 'url("../img/table.jpg")',
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
 	height: '100vh',
@@ -43,16 +43,16 @@ const GameScreen = () => {
 							<img
 								className="playingCard"
 								alt="card"
-								src="./img/cards/BLUE_BACK.svg"
+								src="../img/cards/BLUE_BACK.svg"
 							/>
 							<img
 								className="playingCard"
 								alt="card"
-								src="./img/cards/BLUE_BACK.svg"
+								src="../img/cards/BLUE_BACK.svg"
 							/>
 						</div>
 						<Card style={player.isActive ? activeCard : { width: '12rem' }}>
-							<Card.Img style={imgStyle} variant="top" src="./img/dices.png" />
+							<Card.Img style={imgStyle} variant="top" src="../img/dices.png" />
 							<Card.Body>
 								<Card.Title style={textStyle}>Name: {player.name}</Card.Title>
 								<Card.Text style={textStyle}>
@@ -85,14 +85,14 @@ const GameScreen = () => {
 
 				<Col md={8} className="d-flex align-items-center justify-content-center mt-5">
 					<div className="d-flex mt-5 justify-content-around w-75">
-						<img className="playingCard" alt="card" src="./img/cards/BLUE_BACK.svg" />
+						<img className="playingCard" alt="card" src="../img/cards/BLUE_BACK.svg" />
 
 						<div className="d-flex justify-content-around w-75">
-							<img className="playingCard" alt="card" src="./img/cards/KS.svg" />
-							<img className="playingCard" alt="card" src="./img/cards/KS.svg" />
-							<img className="playingCard" alt="card" src="./img/cards/KS.svg" />
-							<img className="playingCard" alt="card" src="./img/cards/KS.svg" />
-							<img className="playingCard" alt="card" src="./img/cards/KS.svg" />
+							<img className="playingCard" alt="card" src="../img/cards/KS.svg" />
+							<img className="playingCard" alt="card" src="../img/cards/KS.svg" />
+							<img className="playingCard" alt="card" src="../img/cards/KS.svg" />
+							<img className="playingCard" alt="card" src="../img/cards/KS.svg" />
+							<img className="playingCard" alt="card" src="../img/cards/KS.svg" />
 						</div>
 					</div>
 				</Col>
