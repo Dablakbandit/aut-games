@@ -28,10 +28,8 @@ function App() {
 					<Route exact path="/profile" component={ProfileScreen} />
 					<Route exact path="/game/:id" component={GameScreen} />
 
-					<Container>
-						<Route exact path="/login" component={LoginScreen} />
-						<Route exact path="/register" component={RegisterScreen} />
-					</Container>
+					<Route exact path="/login" component={LoginScreen} />
+					<Route exact path="/register" component={RegisterScreen} />
 				</main>
 			</UserContext.Provider>
 		</Router>

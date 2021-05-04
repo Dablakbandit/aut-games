@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Col, Row, Image, Button, Form } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 import { socket } from '../socket';
+import { UserContext } from '../UserContext';
 
 const imgStyle = {
 	width: '200px',
@@ -20,6 +21,13 @@ const backgroundStyle = {
 const Profile = ({ history, match }) => {
 	const id = match.params.id;
 	const [gameId, setGameId] = useState([]);
+	const { user } = useContext(UserContext);
+
+	useEffect(() => {
+		// if (!user) {
+		// 	history.push('/');
+		// }
+	}, [user, history]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
