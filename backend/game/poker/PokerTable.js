@@ -22,15 +22,17 @@ class PokerTable {
 		var { table, socketio } = this;
 		var tableData = {
 			seats: table.seats(),
-			cards: table.holdCards(),
-			round: table.roundOfBetting(),
-			community: table.communityCards(),
 		};
-		if (table.isBettingRoundInProgress()) {
-			tableData['active'] = table.playerToAct();
-			tableData['active'] = table.button();
+		if (table.isHandInProgress()) {
+			tableData['cards'] = table.holeCards();
+			tableData['round'] = table.roundOfBetting();
+			tableData['community'] = table.communityCards();
+			if (table.isBettingRoundInProgress()) {
+				tableData['active'] = table.playerToAct();
+				tableData['button'] = table.button();
+			}
 		}
-		socketio.sockets.in(tableId).emit('tableData', JSON.stringify(tableData));
+		socketio.sockets.in(this.tableId).emit('tableData', JSON.stringify(tableData));
 	};
 
 	checkAndUpdate = () => {
@@ -80,7 +82,9 @@ class PokerTable {
 		if (pokerPlayer.currentSeat != -1) {
 			//TODO check if current action?
 			this.table.standUp(pokerPlayer.currentSeat);
-			this.socketio.sockets.in(tableId).emit('playerLeaveTable', pokerPlayer.currentSeat);
+			this.socketio.sockets
+				.in(this.tableId)
+				.emit('playerLeaveTable', pokerPlayer.currentSeat);
 		}
 		//TODO refund tokens
 	};
