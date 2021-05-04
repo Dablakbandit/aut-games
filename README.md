@@ -86,6 +86,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Credits
 
 > Discord [@Mac#7445](http://urlecho.appspot.com/echo?status=200&Content-Type=text%2Fhtml&body=%40Mac%237445) &nbsp;&middot;&nbsp;
-> Github [@MrGeet](https://github.com/MrGeet) &nbsp;&middot;&nbsp;
-> Discord [Dablakbandit#0001](http://urlecho.appspot.com/echo?status=200&Content-Type=text%2Fhtml&body=Dablakbandit%230001) &nbsp;&middot;&nbsp;
+> Github [@MrGeet](https://github.com/MrGeet) &nbsp;&middot;&nbsp;<br>
+> Discord [@Dablakbandit#0001](http://urlecho.appspot.com/echo?status=200&Content-Type=text%2Fhtml&body=Dablakbandit%230001) &nbsp;&middot;&nbsp;
 > Github [@AshleyThew](https://github.com/AshleyThew)
