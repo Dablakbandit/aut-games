@@ -29,14 +29,14 @@ const setupSocket = (socketio, socket) => {
 
 function setupVideoChat() {
     gameSocket.on('callTable', (data) => {
-        io.to(data.userCalling).emit('callIncoming', {
+        socketio.to(data.userCalling).emit('callIncoming', {
             signal: data.signalData,
             from: data.from,
         });
     });
 
     gameSocket.on('callAccepted', (data) => {
-        io.to(data.userCalling).emit('callAccepted', data.signal);
+        socketio.to(data.userCalling).emit('callAccepted', data.signal);
     });
 }
 
@@ -63,16 +63,30 @@ function joinActiveTable(data) {
 
         // Start betting when two players have sat down
         if (table.length === 2) {
-            socketio.sockets
-                .in(data.tableId)
-                .emit('startSomething', idData.userName);
+            socketio.sockets.in(data.tableId).emit('startSomething', idData.userName);
         }
 
         // Emit an event notifying the clients that the player has joined the room.
-        socketio.sockets.in(data.tableId).emit('playerJoinedTable', data);
+        socketio.sockets.in(data.tableId).emit('playerJoinTable', data);
+
+        // Set the current table
+        this.currentTable = table;
     } else {
         // Otherwise, send an error message back to the player.
         this.emit('status', 'Unable to join active table.');
+    }
+}
+
+function sitTable(data) {
+    if (!isNaN(data.chips) && currentTable) {
+        this.currentSeat = currentTable.sit(this, data.chips);
+        this.emit('currentSeat', { currentSeat: currentSeat });
+        if (currentSeat != -1) {
+            socketio.sockets.in(currentTable.tableId).emit('playerSitDown', {
+                seatId: currentSeat,
+                chips: data.chips,
+            });
+        }
     }
 }
 
@@ -91,7 +105,7 @@ function createTable(data) {
     this.join(tableId);
 
     // Create table object
-    var newTable = pokerTable.createTable(tableId);
+    var newTable = pokerTable.createTable(socketio, tableId);
     // Update active tables
     activeTables[tableId] = newTable;
 
