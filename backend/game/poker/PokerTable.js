@@ -152,9 +152,6 @@ class PokerTable {
 			currentSeat: seat,
 			forced: table.forcedBets(),
 		});
-
-		// Attempt to start the game
-		this.attemptStart();
 		return seat;
 	};
 
