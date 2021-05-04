@@ -49,32 +49,14 @@ const Developers = () => {
 									<Card.Title style={cardTitle}>UX UI Designer </Card.Title>
 									<Card.Text style={textStyle}>
 										Just a student with a part time job and who wants to win,
-										this Hackathon!!!
+										this Hackathon!!! Seriously this was really stressful. I
+										wanna WINNNN
 									</Card.Text>
 								</Card.Body>
 							</Card>
 						</Fade>
 					</Col>
-					<Col sm={8} md={4}>
-						<Fade bottom>
-							<Card style={{ boxShadow: '3px 5px #FBD3E9' }}>
-								<Card.Img
-									variant="top"
-									src="img/devTeam/team2.jpg"
-									style={{ height: '350px' }}
-								/>
 
-								<Card.Header style={cardHeader}>Aldar Batomunkuev</Card.Header>
-
-								<Card.Body>
-									<Card.Title style={cardTitle}>Frontend Developer </Card.Title>
-									<Card.Text style={textStyle}>
-										Seriously this was really stressful. I wanna WINNNN
-									</Card.Text>
-								</Card.Body>
-							</Card>
-						</Fade>
-					</Col>
 					<Col sm={8} md={4}>
 						<Fade bottom>
 							<Card style={{ boxShadow: '3px 5px #FBD3E9' }}>
