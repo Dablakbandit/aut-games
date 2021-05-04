@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { pokerPlayers, mainPlayer as mainPlayerSelf } from '../data';
-import { Card, Button, Row, Col, FormControl, InputGroup } from 'react-bootstrap';
+import { Card, Button, Row, Col, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { socket } from '../socket';
 
 const backgroundStyle = {
@@ -31,19 +31,25 @@ const GameScreen = ({ history, match }) => {
 	const [amount, setAmount] = useState(0);
 	const [table, setTable] = useState({});
 	const [mainPlayer, setMainPlayer] = useState(mainPlayerSelf);
-
+	const [modal, setModal] = useState(false);
 	// const data = socket.on('tableData');
 
 	useEffect(() => {
 		// if (gameId) {
 		// 	alert('game id is ' + gameId);
 		// }
+		setPlayers(pokerPlayers);
 
 		socket.on('tableData', (data) => {
 			console.log(data);
-		});
+			const numOfSeats = data.seats.filter((el) => el !== null);
 
-		setPlayers(pokerPlayers);
+			if (numOfSeats.length <= 1) {
+				setModal(true);
+			} else {
+				setModal(false);
+			}
+		});
 
 		if (mainPlayer) {
 			console.log('call something');
@@ -63,6 +69,16 @@ const GameScreen = ({ history, match }) => {
 
 	return (
 		<div style={backgroundStyle}>
+			<Modal show={modal} onHide={() => {}}>
+				<Modal.Header>
+					<Modal.Title>Invite players</Modal.Title>
+				</Modal.Header>
+				<Modal.Body style={{ fontSize: '1rem', textAlign: 'center' }}>
+					Please send this: <br />
+					<strong>{gameId}</strong> <br />
+					to your friends.
+				</Modal.Body>
+			</Modal>
 			<Row className="d-flex mt-auto justify-content-around fixed-bottom">
 				{players.map((player) => (
 					<div key={player.name}>
