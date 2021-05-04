@@ -59,7 +59,7 @@ const GameScreen = ({ history, match }) => {
 	useEffect(() => {
 		socket.emit('joinTable', { tableId: gameId });
 		socket.emit('sitTable', { token: user.token });
-	}, [gameId, mainPlayer]);
+	}, [gameId, user.token]);
 
 	useEffect(() => {
 		socket.removeEventListener('currentSeat');
@@ -234,7 +234,7 @@ const GameScreen = ({ history, match }) => {
 						</div>
 						with your friends to play.
 					</div>
-					<FacebookShareButton url={useLocation().pathname} quote={'Play poker now!'}>
+					<FacebookShareButton url={window.location.href} quote={'Play poker now!'}>
 						<FacebookIcon size={32} round />
 					</FacebookShareButton>
 				</Modal.Body>
@@ -295,7 +295,7 @@ const GameScreen = ({ history, match }) => {
 				<Col
 					md={2}
 					className="d-flex justify-content-center mt-5 flex-column"
-					style={{ zIndex: 1031, position: 'fixed' }}
+					style={{ zIndex: 1031 }}
 				>
 					<Button onClick={handleLeave} className="ml-5 mt-5 " variant="danger">
 						Leave
