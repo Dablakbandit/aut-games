@@ -1,240 +1,64 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-	Container,
-	Card,
-	Col,
-	Row,
-	Image,
-	ListGroup,
-	Button,
-	Form,
-	NavLink,
-} from 'react-bootstrap';
+import { Container, Col, Row, Image, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { UserContext } from '../UserContext';
 
 const imgStyle = {
-	maxWidth: '100%',
-	maxHeight: '100%',
-	// height: '300px',
-	// width: '200px',
-	display: 'block',
-	objectFit: 'contain',
-	objectPosition: 'top center',
-	borderRadius: '10%',
-	boxShadow: '3px 5px #6dd5ed',
+	width: '200px',
+	// display: 'block',
+	objectFit: 'cover',
 };
 
-const nameStyle = {
-	textTransform: 'uppercase',
+const backgroundStyle = {
+	background:
+		'linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1)),url("./img/game.jpg")',
+	backgroundPosition: 'center',
+	backgroundSize: 'cover',
+	height: '100vh',
 };
 
 const Profile = ({ history, match }) => {
 	const id = match.params.id;
-	const { user } = useContext(UserContext);
-	const [profile, setProfile] = useState(null);
-
-	const [email, setEmail] = useState('');
-	const [name, setName] = useState('');
-	const [role, setRole] = useState('');
-	const [description, setDescription] = useState('');
-	const [age, setAge] = useState('');
-	const [edit, setEdit] = useState(false);
-
-	useEffect(() => {
-		if (!user) {
-			history.push('/');
-		}
-
-		const config = {
-			headers: {
-				Authorization: `Bearer ${user?.token}`,
-			},
-		};
-
-		const fetchUserProfile = async () => {
-			try {
-				const { data } = await axios.get(`/api/users/profile/${id}`, config);
-				console.log(data);
-				setProfile(data);
-			} catch (err) {
-				console.log(err.response);
-			}
-		};
-
-		fetchUserProfile();
-
-		if (profile) {
-			setEmail(profile.email);
-			setName(profile.name);
-			setAge(profile.age);
-			setDescription(profile.description);
-			setRole(profile.role);
-		}
-		// eslint-disable-next-line
-	}, [edit, history, user, id]);
+	const [gameId, setGameId] = useState([]);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
-
-		try {
-			const config = await {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${user?.token}`,
-				},
-			};
-
-			await axios.put('/api/users/profile', { email, name, role, age, description }, config);
-			setEdit(false);
-		} catch (error) {
-			console.log(
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.message
-			);
-		}
 	};
 
 	return (
-		<Container className="mt-5">
-			{user && profile ? (
-				<Row>
-					<Col md={4} className="mb-3">
-						<Card>
-							<Card.Body className="d-flex flex-column justify-content-center align-items-center">
-								<Image style={imgStyle} src={'../' + profile.image}></Image>
-								<div className="mt-4">
-									<h4 style={nameStyle}>
-										{profile.name}, {profile.age}
-									</h4>
-									<Card.Subtitle className="my-3 text-muted">
-										Role: {profile.role}
-									</Card.Subtitle>
-									<Row className="d-flex justify-content-start">
-										<Card.Subtitle className="text-muted mx-2">
-											Matches: {profile.matchedUsers?.length}
-										</Card.Subtitle>
-										<Card.Subtitle className="text-muted mx-2">
-											Likes: {profile.likedByUsers?.length}
-										</Card.Subtitle>
-									</Row>
-								</div>
-							</Card.Body>
-						</Card>
-						{/* <Card className="mt-3">ds</Card> */}
-					</Col>
-					<Col md={8}>
-						<Card className="mb-3">
-							<Card.Body>
-								{!edit ? (
-									<>
-										<ListGroup variant="flush">
-											<ListGroup.Item>Name: {profile.name}</ListGroup.Item>
-											<ListGroup.Item>
-												<NavLink
-													style={{
-														color: '#3b8d99',
-														textDecoration: 'none',
-														padding: '0',
-													}}
-													href={`mailto: ${profile.email}`}
-												>
-													Email: {profile.email}
-												</NavLink>
-											</ListGroup.Item>
-											<ListGroup.Item>Age: {profile.age}</ListGroup.Item>
-											<ListGroup.Item>Role: {profile.role}</ListGroup.Item>
-											<ListGroup.Item>
-												Description:{' '}
-												<p className="text-muted mt-2">
-													{profile.description.length !== 0
-														? profile.description
-														: 'There is no description yet'}
-												</p>
-											</ListGroup.Item>
-										</ListGroup>
+		<div style={backgroundStyle}>
+			<Container className="mb-5 d-flex flex-column">
+				<Row className="mx-auto mt-5 ">
+					<Col md={7}></Col>
+					<Image style={imgStyle} src="./img/cards.png"></Image>
+				</Row>
+				<Row className="d-flex">
+					<Col md={7} className="m-auto d-flex align-items-center justify-content-center">
+						<Form onSubmit={submitHandler} className="my-5">
+							<Form.Group controlId="formBasicEmail">
+								<Form.Label className="test-style ">Game id</Form.Label>
+								<Form.Control
+									type="gameId"
+									placeholder="Enter Game ID"
+									value={gameId}
+									onChange={(e) => setGameId(e.target.value)}
+								></Form.Control>
+							</Form.Group>
+							<Button className="mx-3">Create a game</Button>
 
-										{user._id === profile._id && (
-											<Button
-												className="profileBtn"
-												onClick={() => setEdit(true)}
-											>
-												Edit
-											</Button>
-										)}
-									</>
-								) : (
-									<Form onSubmit={submitHandler} className="my-5">
-										<Form.Group className="my-3" controlId="formName">
-											<Form.Label>Name</Form.Label>
-											<Form.Control
-												type="text"
-												placeholder="Enter your Name"
-												value={name}
-												onChange={(e) => setName(e.target.value)}
-											></Form.Control>
-										</Form.Group>
-
-										<Form.Group controlId="formBasicEmail">
-											<Form.Label>Email address</Form.Label>
-											<Form.Control
-												type="email"
-												placeholder="Enter email"
-												value={email}
-												onChange={(e) => setEmail(e.target.value)}
-											></Form.Control>
-										</Form.Group>
-
-										<Form.Group controlId="age">
-											<Form.Label>Age</Form.Label>
-											<Form.Control
-												type="number"
-												placeholder="Enter your age"
-												value={age}
-												onChange={(e) => setAge(e.target.value)}
-											></Form.Control>
-										</Form.Group>
-
-										<Form.Group controlId="role">
-											<Form.Label>Role</Form.Label>
-											<Form.Control
-												type="text"
-												placeholder="Your role"
-												value={role}
-												onChange={(e) => setRole(e.target.value)}
-											></Form.Control>
-										</Form.Group>
-
-										<Form.Group controlId="description">
-											<Form.Label>Description</Form.Label>
-											<Form.Control
-												as="textarea"
-												placeholder="Your description"
-												value={description}
-												style={{ minHeight: '6rem' }}
-												onChange={(e) => setDescription(e.target.value)}
-											></Form.Control>
-										</Form.Group>
-										<Button
-											onClick={() => setEdit(false)}
-											className="profileBtn my-2 mx-2"
-										>
-											Cancel
-										</Button>
-										<Button type="submit" className="profileBtn my-2 mx-2">
-											Change
-										</Button>
-									</Form>
-								)}
-							</Card.Body>
-						</Card>
+							<Button
+								className="mx-3"
+								type="submit"
+								variant="primary"
+								className="my-2"
+							>
+								Join a game
+							</Button>
+						</Form>
 					</Col>
 				</Row>
-			) : (
-				<h4>Loading...</h4>
-			)}
-		</Container>
+			</Container>
+		</div>
 	);
 };
 

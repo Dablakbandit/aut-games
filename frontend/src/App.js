@@ -23,12 +23,12 @@ function App() {
 			<UserContext.Provider value={value}>
 				<Header></Header>
 				<main>
-					<Container>
-						<Route exact path="/" component={HomeScreen} />
+					<Route exact path="/" component={HomeScreen} />
+					<Route exact path="/profile" component={ProfileScreen} />
 
+					<Container>
 						<Route exact path="/login" component={LoginScreen} />
 						<Route exact path="/register" component={RegisterScreen} />
-						<Route exact path="/profile/:id" component={ProfileScreen} />
 					</Container>
 				</main>
 			</UserContext.Provider>
