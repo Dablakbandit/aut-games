@@ -158,6 +158,7 @@ class PokerPlayer {
 
 		// Set the current table
 		this.currentTable = newTable;
+		this.currentTable.updatePlayers();
 	};
 
 	disconnectFromTable = () => {
