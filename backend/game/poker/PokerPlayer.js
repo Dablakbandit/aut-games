@@ -129,14 +129,6 @@ class PokerPlayer {
 		var newTable = new PokerTable(this.socketio, tableId);
 		// Insert into active tables
 		activeTables[tableId] = newTable;
-
-		// Join the new table
-		newTable.joinTable(this);
-		// Update table data to user
-		newTable.updatePlayers();
-
-		// Assign current table
-		this.currentTable = newTable;
 	};
 
 	/**
