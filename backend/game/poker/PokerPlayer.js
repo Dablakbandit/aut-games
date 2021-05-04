@@ -99,8 +99,6 @@ class PokerPlayer {
 					chips: data.chips,
 				});
 			}
-		} else {
-			this.gameSocket.emit('status', 'Invalid');
 		}
 	};
 
