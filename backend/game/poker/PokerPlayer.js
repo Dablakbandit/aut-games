@@ -1,4 +1,6 @@
 const PokerTable = require('./PokerTable');
+const jwt = require('jsonwebtoken');
+const User = require('../../models/User');
 
 // activeTables store an array of all active poker tables
 global.activeTables = {};
@@ -9,6 +11,7 @@ class PokerPlayer {
 		this.gameSocket = gameSocket;
 		this.currentTable = undefined;
 		this.currentSeat = undefined;
+		this.user = undefined;
 
 		// Remove player from table on disconnect or button press
 		gameSocket.on('disconnect', this.disconnectFromTable);
@@ -136,12 +139,26 @@ class PokerPlayer {
 	 *
 	 * 	@param  {Object} data - Data passed from the socket
 	 * 	@param  {number} data.chips - Amount of chips to sit down with
+	 * 	@param  {string} data.token - Amount of chips to sit down with
 	 */
-	sitTable = (data) => {
+	sitTable = async (data) => {
 		// If chips are valid and has current table
-		if (!isNaN(data.chips) && this.currentTable) {
+		if (!isNaN(data.chips) && data.token && this.currentTable) {
+			var token = data.token;
+
+			const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+			this.user = await User.findById(decoded.id).select('-password');
+			console.log(this.user);
+			var { chips } = this.user;
+			if (chips === undefined) {
+				// Unable to sit down emitting empty seat redirects player
+				this.gameSocket.emit('currentSeat', {});
+				return;
+			}
+
 			// Sit down at the table and assign current seat
-			this.currentSeat = this.currentTable.sit(this, data.chips);
+			this.currentSeat = this.currentTable.sit(this, user.chips);
 
 			// Alert all players of the player sitting down
 			this.socketio.sockets.in(this.currentTable.tableId).emit('playerSitDown', {

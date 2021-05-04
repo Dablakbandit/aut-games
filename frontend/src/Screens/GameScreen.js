@@ -10,6 +10,8 @@ const backgroundStyle = {
 	backgroundPosition: 'center',
 	backgroundSize: 'cover',
 	height: '100vh',
+	width: '100wh',
+	position: 'fixed',
 };
 
 const imgStyle = {
@@ -112,6 +114,7 @@ const GameScreen = ({ history, match }) => {
 	const handleLeave = () => {
 		socket.emit('leaveTable');
 	};
+
 	const handleFold = () => {
 		socket.emit('foldTable');
 	};
