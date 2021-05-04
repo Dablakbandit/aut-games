@@ -36,6 +36,7 @@ exports.getAllChips = asyncHandler(async (req, res) => {
 		return { chips: el.chips, name: el.name };
 	});
 
+	chipsArr.sort((a, b) => b.chips - a.chips);
 	console.log(chipsArr);
 
 	if (chipsArr.length > 0) {

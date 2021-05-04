@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post('/login', authUser);
 router.route('/').post(registerUser);
-router.route('/chips').get(getAllChips);
+router.route('/leaderboard').get(getAllChips);
 router.route('/profile').put(protect, updateUserProfile);
 
 router.route('/profile/:id').get(protect, getUserProfile);
