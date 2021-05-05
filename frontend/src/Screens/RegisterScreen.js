@@ -53,7 +53,7 @@ const RegisterScreen = ({ history }) => {
 	return (
 		<div style={backgroundStyle}>
 			<Container>
-				<Row>
+				<Row className="d-flex justify-content-center ">
 					<Col md={8} xs={12}>
 						<Form onSubmit={submitHandler} className="my-5">
 							<Form.Group controlId="name">

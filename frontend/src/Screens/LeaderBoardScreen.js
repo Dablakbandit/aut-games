@@ -52,14 +52,14 @@ const LeaderBoardScreen = () => {
 						{players.map((player, index) => (
 							<ListGroup.Item
 								key={index}
-								style={{ backgroundColor: 'rgba(255,255,255,0.3)', color: 'white' }}
+								style={{ backgroundColor: 'rgba(0,0,0,0.3)', color: 'white' }}
 							>
 								{`${index + 1}. ${player.name}: ${player.chips} chips`}
 							</ListGroup.Item>
 						))}
 					</ListGroup>
 				) : (
-					<h2 className="text-style">No players registered</h2>
+					<h2 className="text-style">Loading...</h2>
 				)}
 			</Container>
 		</div>

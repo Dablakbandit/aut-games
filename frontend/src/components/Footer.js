@@ -12,7 +12,7 @@ const Footer = () => {
 					<Col md={4} className="text-center py-3">
 						<div>Author:</div>
 						<div>Aldar</div>
-						<div>Ashlet</div>
+						<div>Ashley</div>
 					</Col>
 					<Col md={4} className="text-center py-3">
 						Made for AUT GAME HACKATHON

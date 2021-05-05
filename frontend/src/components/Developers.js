@@ -8,7 +8,6 @@ const Developers = () => {
 		fontWeight: '700',
 		lineHeight: '1.3',
 		marginBottom: '40px',
-		color: '#2b044d',
 		maxWidth: '600px',
 	};
 
@@ -23,7 +22,6 @@ const Developers = () => {
 
 	const cardHeader = {
 		background: 'transparent',
-		borderBottom: '5px solid #333399',
 	};
 
 	const cardTitle = {
@@ -46,7 +44,7 @@ const Developers = () => {
 								<Card.Header style={cardHeader}>Aldar Batomunkuev</Card.Header>
 
 								<Card.Body>
-									<Card.Title style={cardTitle}>UX UI Designer </Card.Title>
+									<Card.Title style={cardTitle}>Frontend </Card.Title>
 									<Card.Text style={textStyle}>
 										Just a student with a part time job and who wants to win,
 										this Hackathon!! Seriously this was really stressful. I
@@ -59,7 +57,7 @@ const Developers = () => {
 
 					<Col sm={8} md={4}>
 						<Fade bottom>
-							<Card style={{ boxShadow: '3px 5px #FBD3E9' }}>
+							<Card style={{ boxShadow: '3px 5px red', background: 'transparent' }}>
 								<Card.Img
 									variant="top"
 									src="img/devTeam/team4.jpg"
