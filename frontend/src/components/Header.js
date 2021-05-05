@@ -68,7 +68,11 @@ const Header = () => {
 							<Nav>
 								<Nav.Link>
 									<Image
-										src="./img/chips.svg"
+										src={
+											window.location.pathname.split('game').length === 2
+												? '../img/chips.svg'
+												: './img/chips.svg'
+										}
 										className="chipsImage"
 										alt="stackSize"
 									></Image>
