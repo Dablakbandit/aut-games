@@ -9,6 +9,7 @@ import { UserContext } from './UserContext';
 import RegisterScreen from './Screens/RegisterScreen';
 import GameScreen from './Screens/GameScreen';
 import LeaderBoardScreen from './Screens/LeaderBoardScreen';
+import StoreScreen from './Screens/StoreScreen';
 
 function App() {
 	const userInfo = localStorage.getItem('userInfo')
@@ -27,6 +28,7 @@ function App() {
 					<Route exact path="/" component={HomeScreen} />
 					<Route exact path="/profile" component={ProfileScreen} />
 					<Route exact path="/leaderboard" component={LeaderBoardScreen} />
+					<Route exact path="/store" component={StoreScreen} />
 					<Route exact path="/game/:gameId" component={GameScreen} />
 
 					<Route exact path="/login" component={LoginScreen} />

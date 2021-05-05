@@ -21,7 +21,7 @@ const User = new mongoose.Schema({
 	},
 	image: {
 		type: String,
-		default: '../img/dices.png',
+		default: './img/dices.png',
 	},
 });
 
