@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const generateToken = require('../config/generateToken.js');
+const images = require('../data/users');
 
 //@desc authenticating the user & get Token
 //@route Post /api/users/login
@@ -121,6 +122,55 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
 	} else {
 		res.status(404);
 		throw new Error('User not found');
+	}
+});
+
+exports.getImages = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id);
+
+	if (user) {
+		res.json({
+			images: images,
+		});
+	} else {
+		res.status(404);
+		throw new Error('User not found');
+	}
+});
+
+exports.buyImage = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id);
+	const image = req.body.image;
+
+	if (user && image) {
+		const cost = images[image];
+
+		if (!cost) {
+			res.status(400);
+			throw new Error('No such image');
+		}
+
+		if (user.chips < cost) {
+			res.status(400);
+			throw new Error('Not enough chips');
+		}
+
+		user.chips -= cost;
+		user.image = image;
+
+		const updatedUser = await user.save();
+
+		res.json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			token: generateToken(updatedUser._id),
+			image: image,
+			message: 'Image was purchased',
+		});
+	} else {
+		res.status(404);
+		throw new Error('Bad request');
 	}
 });
 

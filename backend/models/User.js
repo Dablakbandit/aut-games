@@ -19,6 +19,10 @@ const User = new mongoose.Schema({
 		type: Number,
 		default: 1000,
 	},
+	image: {
+		type: String,
+		default: '../img/dices.png',
+	},
 });
 
 //USER AUTHENTICATION METHOD
