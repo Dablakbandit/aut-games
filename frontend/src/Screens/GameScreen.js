@@ -12,7 +12,6 @@ import {
 	WhatsappShareButton,
 	WhatsappIcon,
 } from 'react-share';
-import { useLocation } from 'react-router-dom';
 
 const backgroundStyle = {
 	background: 'url("../img/table.jpg")',
