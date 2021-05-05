@@ -21,7 +21,6 @@ const backgroundStyle = {
 };
 
 const Profile = ({ history, match }) => {
-	const id = match.params.id;
 	const [gameId, setGameId] = useState('');
 	const { user } = useContext(UserContext);
 
@@ -29,6 +28,7 @@ const Profile = ({ history, match }) => {
 		if (!user) {
 			history.push('/');
 		}
+		socket.emit('leaveTable');
 	}, [user, history]);
 
 	const submitHandler = (e) => {
@@ -43,7 +43,6 @@ const Profile = ({ history, match }) => {
 
 	const handleCreate = () => {
 		const id = uuidv4();
-
 		const result = socket.emit('createTable', { tableId: id });
 
 		if (result.connected) {

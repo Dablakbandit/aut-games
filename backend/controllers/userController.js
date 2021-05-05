@@ -19,6 +19,7 @@ exports.authUser = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			image: user.image,
+			chips: user.chips,
 			token: generateToken(user._id),
 		});
 	} else {
@@ -165,6 +166,7 @@ exports.buyImage = asyncHandler(async (req, res) => {
 			name: updatedUser.name,
 			email: updatedUser.email,
 			image: image,
+			chips: updatedUser.chips,
 			token: generateToken(updatedUser._id),
 		});
 	} else {

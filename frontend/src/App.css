@@ -9,6 +9,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	background-color: #150f0f;
+	color: rgb(194, 194, 194);
 }
 .heroBtn:hover {
 	background-color: #ce1313;

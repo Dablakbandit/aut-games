@@ -15,7 +15,7 @@ const cardImgStyle = {
 
 const StoreScreen = ({ history }) => {
 	const [products, setProducts] = useState([]);
-	const { user } = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 	const [bought, setBought] = useState(user.image);
 
 	useEffect(() => {
@@ -49,8 +49,8 @@ const StoreScreen = ({ history }) => {
 		const { data } = await axios.post('/api/users/store', { image: key }, config);
 		if (data.image === key) {
 			localStorage.setItem('userInfo', JSON.stringify(data));
+			setUser(data);
 			setBought(key);
-			alert('The image was bought');
 		}
 
 		console.log(data);
