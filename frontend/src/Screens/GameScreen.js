@@ -53,6 +53,7 @@ const GameScreen = ({ history, match }) => {
 	const [tableCards, setTableCards] = useState([]);
 	const [activePlayer, setActivePlayer] = useState(null);
 	const [forcedBets, setForcedBets] = useState([]);
+	const [winners, setWinners] = useState([]);
 
 	const { user } = useContext(UserContext);
 
@@ -98,23 +99,35 @@ const GameScreen = ({ history, match }) => {
 					mappedPlayers.push({ ...data?.seats[i], ...data?.cards[i] });
 				}
 
+				setWinners([]);
 				setPlayers(mappedPlayers);
 				setTableCards(data.community);
 				setActivePlayer(data.active);
 				console.log(mappedPlayers);
 			} else if (data) {
 				var mappedPlayers = [...players];
+				var gainedPlayers = [];
 				for (let i = 0; i < data.seats.length; i++) {
 					if (data.seats[i] !== null) {
+						if (mappedPlayers[i]) {
+							gainedPlayers.push(
+								mappedPlayers[i].totalChips < data.seats[i].totalChips
+							);
+						} else {
+							gainedPlayers.push(false);
+						}
 						mappedPlayers[i] = data.seats[i];
 					} else {
+						gainedPlayers.push(false);
 						delete mappedPlayers[i];
 					}
 				}
+				setWinners(gainedPlayers);
 				setPlayers(mappedPlayers);
 				setTableCards([]);
 				setActivePlayer(null);
 				console.log(mappedPlayers);
+				console.log(gainedPlayers);
 			}
 		});
 	}, [history, players]);
@@ -282,7 +295,15 @@ const GameScreen = ({ history, match }) => {
 								</>
 							)}
 						</div>
-						<Card style={activePlayer === index ? activeCard : { width: '12rem' }}>
+						<Card
+							style={
+								activePlayer === index
+									? activeCard
+									: winners[index]
+									? { backgroundColor: '#7FFF00', width: '12rem' }
+									: { width: '12rem' }
+							}
+						>
 							<Card.Img style={imgStyle} variant="top" src="../img/dices.png" />
 							<Card.Body>
 								{/* CHANGE INDEX TO NAME */}
