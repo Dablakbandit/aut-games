@@ -203,7 +203,10 @@ class PokerTable {
 
 			// TODO refund
 			pokerPlayer.user.chips += stackSize;
-			pokerPlayer.user.save();
+			await pokerPlayer.user.save();
+
+			pokerPlayer.gameSocket.emit('chipUpdate', {chips: pokerPlayer.user.chips});
+			
 			console.log('Refund ' + stackSize);
 
 			// Emit player leave to all players

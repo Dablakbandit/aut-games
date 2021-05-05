@@ -164,6 +164,8 @@ class PokerPlayer {
 
 			await this.user.save();
 
+			this.gameSocket.emit('chipUpdate', { chips: this.user.chips });
+
 			// Sit down at the table and assign current seat
 			this.currentSeat = this.currentTable.sit(this, chips);
 

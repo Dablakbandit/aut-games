@@ -1,4 +1,6 @@
 import io from 'socket.io-client';
+import { useContext } from 'react';
+import { UserContext } from './UserContext';
 
 let URL = 'http://localhost:5000';
 
@@ -21,6 +23,12 @@ socket.on('createTable', (statusUpdate) => {
 			statusUpdate.mySocketId
 	);
 	mySocketId = statusUpdate.mySocketId;
+});
+
+socket.on('chipUpdate', (update) => {
+	const { user, setUser } = useContext(UserContext);
+	user.chips = update.chips;
+	setUser(user);
 });
 
 export { socket, mySocketId };
