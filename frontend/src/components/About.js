@@ -4,8 +4,7 @@ import Slide from 'react-reveal';
 
 const About = () => {
 	const imgStyle = {
-		// width: '600px',
-		height: '600px',
+		maxHeight: '600px',
 		display: 'block',
 		objectFit: 'cover',
 	};
@@ -32,12 +31,12 @@ const About = () => {
 		<div id="about" style={{ minHeight: '100vh', backgroundColor: '#150f0f' }}>
 			<Container className="d-flex justify-content-center align-items-center h-100 mb-5">
 				<Row className="mt-5">
-					<Col md={7} className="">
+					<Col md={7} sm={10} className="">
 						<Slide left>
 							<Image style={imgStyle} src="img/poker.png"></Image>
 						</Slide>
 					</Col>
-					<Col md={5} className="d-flex flex-column align-items-baseline my-5">
+					<Col md={5} sm={10} className="d-flex flex-column align-items-baseline my-5">
 						<Slide right>
 							<h2 style={headerStyle}>The best platform for playing poker online</h2>
 							<div style={textStyle}>

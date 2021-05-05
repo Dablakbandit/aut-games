@@ -25,7 +25,17 @@ body {
 	border-color: #880303;
 	transition: all 0.2s ease-in;
 }
+
+.btn-primary:disabled {
+	background-color: rgb(255, 166, 0);
+	border-color: #880303;
+}
 .heroBtn:hover {
+	background-color: #ce1313;
+	transform: scale(1.1);
+	transition: all 0.2s ease-in;
+}
+.heroBtn:disabled {
 	background-color: #ce1313;
 	transform: scale(1.1);
 	transition: all 0.2s ease-in;
