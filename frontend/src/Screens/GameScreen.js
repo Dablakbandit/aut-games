@@ -311,7 +311,7 @@ const GameScreen = ({ history, match }) => {
 									: { width: '12rem' }
 							}
 						>
-							<Card.Img style={imgStyle} variant="top" src="../img/dices.png" />
+							<Card.Img style={imgStyle} variant="top" src={'.' + player.image} />
 							<Card.Body>
 								{/* CHANGE INDEX TO NAME */}
 								<Card.Title style={textStyle}>{player.name}</Card.Title>
