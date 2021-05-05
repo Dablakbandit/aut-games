@@ -189,7 +189,7 @@ class PokerPlayer {
 	 * 	Disconnect player from the current table
 	 *
 	 */
-	disconnectFromTable = () => {
+	disconnectFromTable = async () => {
 		// If we have a current table
 		if (this.currentTable) {
 			// Leave the table room

@@ -185,7 +185,7 @@ class PokerTable {
 	 * Attempt to leave the table
 	 * 	@param {PokerPlayer} pokerPlayer - The player wishing to leave this table
 	 */
-	leaveTable = (pokerPlayer) => {
+	leaveTable = async (pokerPlayer) => {
 		// Get index of player
 		var i = this.players.indexOf(pokerPlayer);
 		// Remove from index
@@ -205,8 +205,8 @@ class PokerTable {
 			pokerPlayer.user.chips += stackSize;
 			await pokerPlayer.user.save();
 
-			pokerPlayer.gameSocket.emit('chipUpdate', {chips: pokerPlayer.user.chips});
-			
+			pokerPlayer.gameSocket.emit('chipUpdate', { chips: pokerPlayer.user.chips });
+
 			console.log('Refund ' + stackSize);
 
 			// Emit player leave to all players
