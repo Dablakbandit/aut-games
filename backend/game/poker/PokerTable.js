@@ -59,6 +59,7 @@ class PokerTable {
 		this.players.forEach((player) => {
 			if (player.currentSeat !== undefined && player.user) {
 				tableData.seats[player.currentSeat].name = player.user.name;
+				tableData.seats[player.currentSeat].image = player.user.image;
 			}
 		});
 
