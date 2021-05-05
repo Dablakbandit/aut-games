@@ -261,7 +261,11 @@ const GameScreen = ({ history, match }) => {
 					<FacebookShareButton url={window.location.href} quote={'Play poker now!'}>
 						<FacebookIcon size={32} round />
 					</FacebookShareButton>
-					<TwitterShareButton url={window.location.href} title={'Play poker now!'}>
+					<TwitterShareButton
+						className="mx-2"
+						url={window.location.href}
+						title={'Play poker now!'}
+					>
 						<TwitterIcon size={32} round />
 					</TwitterShareButton>
 					<WhatsappShareButton url={window.location.href} title={'Play poker now!'}>
