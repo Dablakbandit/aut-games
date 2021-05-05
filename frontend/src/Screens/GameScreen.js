@@ -74,7 +74,7 @@ const GameScreen = ({ history, match }) => {
 		socket.removeEventListener('currentSeat');
 		socket.on('currentSeat', (data) => {
 			if (data.currentSeat === undefined) {
-				// history.push('/profile');
+				history.push('/play');
 			} else {
 				console.log(data);
 				setCurrentPlayer(data.currentSeat);

@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const generateToken = require('../config/generateToken.js');
-const images = require('../data/users');
+const { images } = require('../data/users');
 
 //@desc authenticating the user & get Token
 //@route Post /api/users/login
@@ -18,6 +18,7 @@ exports.authUser = asyncHandler(async (req, res) => {
 			_id: user._id,
 			name: user.name,
 			email: user.email,
+			image: user.image,
 			token: generateToken(user._id),
 		});
 	} else {
@@ -127,7 +128,6 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
 
 exports.getImages = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id);
-
 	if (user) {
 		res.json({
 			images: images,
@@ -164,9 +164,8 @@ exports.buyImage = asyncHandler(async (req, res) => {
 			_id: updatedUser._id,
 			name: updatedUser.name,
 			email: updatedUser.email,
-			token: generateToken(updatedUser._id),
 			image: image,
-			message: 'Image was purchased',
+			token: generateToken(updatedUser._id),
 		});
 	} else {
 		res.status(404);

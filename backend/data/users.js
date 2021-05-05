@@ -1,6 +1,6 @@
 //const bcrypt = require('bcrypt');
 
-const images = {
+exports.images = {
 	'./img/united-kingdom.svg': 100,
 	'./img/new-zealand.svg': 100,
 	'./img/australia.svg': 100,
@@ -8,5 +8,3 @@ const images = {
 	'./img/united-states.svg': 100,
 	'./img/france.svg': 100,
 };
-
-exports.module = images;

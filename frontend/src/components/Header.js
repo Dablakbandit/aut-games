@@ -45,6 +45,12 @@ const Header = () => {
 								<LinkContainer className="mx-1" to="/leaderboard">
 									<Nav.Link>Leader Board</Nav.Link>
 								</LinkContainer>
+								<LinkContainer className="mx-1" to="/store">
+									<Nav.Link>Store</Nav.Link>
+								</LinkContainer>
+								<LinkContainer className="mx-1" to="/play">
+									<Nav.Link>Play</Nav.Link>
+								</LinkContainer>
 							</Nav>
 							<Nav>
 								<NavDropdown
