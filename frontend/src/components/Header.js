@@ -1,11 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { AiOutlineUser } from 'react-icons/ai';
 import { UserContext } from '../UserContext';
+import { socket } from '../socket';
 
 const Header = () => {
 	const { user, setUser } = useContext(UserContext);
+	const [chips, setChips] = useState(0);
 
 	const scrollTo = (id) => {
 		const element = document.getElementById(id);
@@ -17,7 +19,16 @@ const Header = () => {
 		}
 	};
 
-	useEffect(() => {}, [user]);
+	useEffect(() => {
+		if (user) {
+			setChips(user.chips);
+		}
+	}, [setChips, user]);
+	useEffect(() => {
+		socket.on('chipUpdate', (update) => {
+			setChips(update.chips);
+		});
+	}, [chips, setChips]);
 
 	const logoutHandler = () => {
 		localStorage.removeItem('userInfo');
@@ -61,7 +72,7 @@ const Header = () => {
 										className="chipsImage"
 										alt="stackSize"
 									></Image>
-									{user.chips}
+									{chips}
 								</Nav.Link>
 								<NavDropdown
 									className="mx-1"
