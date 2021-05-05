@@ -7,7 +7,7 @@ import { socket } from '../socket';
 
 const Header = () => {
 	const { user, setUser } = useContext(UserContext);
-	const { chips, setChips } = useState(0);
+	const [chips, setChips] = useState(0);
 
 	const scrollTo = (id) => {
 		const element = document.getElementById(id);
@@ -20,7 +20,9 @@ const Header = () => {
 	};
 
 	useEffect(() => {
-		setChips(user.chips);
+		if (user) {
+			setChips(user.chips);
+		}
 	}, [setChips, user]);
 	useEffect(() => {
 		socket.on('chipUpdate', (update) => {
