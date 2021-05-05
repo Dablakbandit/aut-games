@@ -26,7 +26,7 @@ function App() {
 				<Header></Header>
 				<main>
 					<Route exact path="/" component={HomeScreen} />
-					<Route exact path="/profile" component={ProfileScreen} />
+					<Route exact path="/play" component={ProfileScreen} />
 					<Route exact path="/leaderboard" component={LeaderBoardScreen} />
 					<Route exact path="/store" component={StoreScreen} />
 					<Route exact path="/game/:gameId" component={GameScreen} />

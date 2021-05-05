@@ -37,7 +37,7 @@ const Developers = () => {
 				<Row className="d-flex justify-content-center">
 					<Col sm={8} md={4}>
 						<Fade bottom>
-							<Card style={{ boxShadow: '3px 5px #FBD3E9' }}>
+							<Card style={{ boxShadow: '3px 5px red', background: 'transparent' }}>
 								<Card.Img
 									variant="top"
 									src="img/devTeam/team1.jpg"

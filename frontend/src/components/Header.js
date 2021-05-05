@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import React, { useContext, useEffect } from 'react';
+import { Navbar, Nav, Container, NavDropdown, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { AiOutlineUser } from 'react-icons/ai';
 import { UserContext } from '../UserContext';
@@ -16,6 +16,8 @@ const Header = () => {
 			});
 		}
 	};
+
+	useEffect(() => {}, [user]);
 
 	const logoutHandler = () => {
 		localStorage.removeItem('userInfo');
@@ -45,8 +47,22 @@ const Header = () => {
 								<LinkContainer className="mx-1" to="/leaderboard">
 									<Nav.Link>Leader Board</Nav.Link>
 								</LinkContainer>
+								<LinkContainer className="mx-1" to="/store">
+									<Nav.Link>Store</Nav.Link>
+								</LinkContainer>
+								<LinkContainer className="mx-1" to="/play">
+									<Nav.Link>Play</Nav.Link>
+								</LinkContainer>
 							</Nav>
 							<Nav>
+								<Nav.Link>
+									<Image
+										src="./img/chips.svg"
+										className="chipsImage"
+										alt="stackSize"
+									></Image>
+									{user.chips}
+								</Nav.Link>
 								<NavDropdown
 									className="mx-1"
 									title={<AiOutlineUser />}

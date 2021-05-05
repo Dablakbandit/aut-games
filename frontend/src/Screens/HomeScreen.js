@@ -11,7 +11,7 @@ const HomeScreen = ({ history }) => {
 
 	useEffect(() => {
 		if (user) {
-			history.push(`/profile`);
+			history.push(`/play`);
 		}
 	}, [user, history]);
 
