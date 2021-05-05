@@ -63,7 +63,7 @@ const Profile = ({ history, match }) => {
 				</Row>
 				<Form onSubmit={submitHandler} className="my-5">
 					<Row className="justify-content-md-center">
-						<Col sm={8} className="align-items-center justify-content-center">
+						<Col md={8} sm={8} className="align-items-center justify-content-center">
 							<Form.Group controlId="formBasicEmail">
 								<Form.Label className="test-style ">Game id</Form.Label>
 								<Form.Control
@@ -76,15 +76,15 @@ const Profile = ({ history, match }) => {
 							</Form.Group>
 						</Col>
 					</Row>
-					<Row className="justify-content-md-center">
+					<Row className="d-flex justify-content-center">
 						<Col sm={3}></Col>
 						<Col sm className="m-auto d-flex align-items-center justify-content-center">
-							<Button className="mx-3 heroBtn mt-1" onClick={() => handleCreate()}>
+							<Button className="heroBtn mt-1" onClick={() => handleCreate()}>
 								Create a game
 							</Button>
 						</Col>
 						<Col sm className="d-flex align-items-center justify-content-center">
-							<Button className="mx-3 heroBtn mt-1" type="submit" variant="primary">
+							<Button className="heroBtn mt-1" type="submit" variant="primary">
 								Join a game
 							</Button>
 						</Col>

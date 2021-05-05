@@ -53,6 +53,7 @@ const GameScreen = ({ history, match }) => {
 	const [tableCards, setTableCards] = useState([]);
 	const [activePlayer, setActivePlayer] = useState(null);
 	const [forcedBets, setForcedBets] = useState([]);
+	const [pot, setPot] = useState(0);
 
 	const { user } = useContext(UserContext);
 
@@ -72,7 +73,7 @@ const GameScreen = ({ history, match }) => {
 		socket.removeEventListener('currentSeat');
 		socket.on('currentSeat', (data) => {
 			if (data.currentSeat === undefined) {
-				history.push('/profile');
+				// history.push('/profile');
 			} else {
 				console.log(data);
 				setCurrentPlayer(data.currentSeat);
@@ -101,6 +102,7 @@ const GameScreen = ({ history, match }) => {
 				setPlayers(mappedPlayers);
 				setTableCards(data.community);
 				setActivePlayer(data.active);
+				setPot(data.pot);
 				console.log(mappedPlayers);
 			} else if (data) {
 				var mappedPlayers = [...players];
@@ -111,6 +113,7 @@ const GameScreen = ({ history, match }) => {
 						delete mappedPlayers[i];
 					}
 				}
+				setPot(0);
 				setPlayers(mappedPlayers);
 				setTableCards([]);
 				setActivePlayer(null);
@@ -286,7 +289,7 @@ const GameScreen = ({ history, match }) => {
 							<Card.Img style={imgStyle} variant="top" src="../img/dices.png" />
 							<Card.Body>
 								{/* CHANGE INDEX TO NAME */}
-								<Card.Title style={textStyle}>Name: {index}</Card.Title>
+								<Card.Title style={textStyle}>{player.name}</Card.Title>
 								<Card.Text style={textStyle}>
 									Stack:
 									<img
@@ -415,8 +418,30 @@ const GameScreen = ({ history, match }) => {
 					)}
 				</Col>
 
-				<Col md={8} className="d-flex align-items-center justify-content-center mt-5">
-					<div className="d-flex mt-5 justify-content-around w-75">
+				<Col
+					md={8}
+					className="d-flex align-items-center flex-column justify-content-start mt-5"
+					style={{ minHeight: '50vh' }}
+				>
+					<div className="mt-3 mb-5 d-flex flex-column align-items-center">
+						<img
+							src="../img/pot.svg"
+							style={{ height: '40px', width: '40px' }}
+							alt="pot"
+						/>
+						<strong
+							style={{
+								color: 'white',
+								backgroundColor: 'rgba(0,0,0,0.5)',
+								borderRadius: '5px',
+								width: 'auto',
+								marginTop: '5px',
+							}}
+						>
+							Pot: {pot} {'  '}{' '}
+						</strong>
+					</div>
+					<div className="d-flex justify-content-around w-75 mt-3">
 						<img className="playingCard" alt="card" src="../img/cards/BLUE_BACK.svg" />
 
 						<div className="d-flex justify-content-around w-75">
